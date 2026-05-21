@@ -36,28 +36,16 @@ Ejecutar desde la raiz del proyecto.
 2. pnpm build
 3. verificar salida en dist
 
-## Deploy con Vercel CLI
+## Publicacion en GitHub
 
-Prerequisitos:
+Si es la primera vez que subis este proyecto al remoto:
 
-- Node 22.12+ (segun engines)
-- Vercel CLI instalada de forma global
+1. git branch -M main
+2. git remote add origin https://github.com/falechfacundo/presentation-hub.git
+3. git push -u origin main
 
-Instalacion de CLI (si no existe):
+Si el remoto ya existe y solo queres subir cambios nuevos:
 
-- pnpm add -g vercel
-
-Primer setup:
-
-1. vercel login
-2. vercel link
-
-Deploy:
-
-1. pnpm build
-2. vercel --prod
-
-Notas:
-
-- El proyecto usa output static en Astro.
-- Si tenes variables de entorno, configurarlas en Vercel antes del deploy.
+1. git add -A
+2. git commit -m "chore: actualiza proyecto"
+3. git push

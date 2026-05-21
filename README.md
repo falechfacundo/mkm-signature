@@ -36,6 +36,31 @@ Ejecutar desde la raiz del proyecto.
 2. pnpm build
 3. verificar salida en dist
 
+## URL y Parametros
+
+La app expone una unica ruta publica:
+
+- /
+
+La personalizacion del contenido se hace por query params:
+
+- service: landing | ecommerce | bot
+- industry: retail | startup | local | saas | default
+- client: texto libre opcional
+- lang: es | en
+
+Defaults si no se envia nada o llega un valor invalido:
+
+- service=landing
+- industry=default
+- lang=es
+- client=null
+
+Ejemplos:
+
+- /?service=landing
+- /?service=bot&industry=saas&client=Acme&lang=en
+
 ## Publicacion en GitHub
 
 Si es la primera vez que subis este proyecto al remoto:

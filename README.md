@@ -1,46 +1,63 @@
-# Astro Starter Kit: Basics
+# Presentation Hub
 
-```sh
-pnpm create astro@latest -- --template basics
-```
+Landing hub para propuestas de Ad Astra, construido con Astro, React islands y Tailwind CSS v4.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Stack
 
-## 🚀 Project Structure
+- Astro 6
+- React 19 (islands)
+- Tailwind CSS v4
+- TypeScript estricto
 
-Inside of your Astro project, you'll see the following folders and files:
+## Estructura Principal
 
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
-```
+- src/pages/index.astro: entrypoint del hub
+- src/layouts/BaseLayout.astro: shell HTML y metadatos
+- src/blocks: secciones principales de la landing
+- src/components/react: islands interactivos
+- src/components/ui: componentes atomicos Astro
+- src/config: configuracion de sitio y servicios
+- src/data: source of truth de contenido
+- src/lib: utilidades y parseo de params
+- src/styles/global.css: design system y utilidades globales
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+## Comandos
 
-## 🧞 Commands
+Ejecutar desde la raiz del proyecto.
 
-All commands are run from the root of the project, from a terminal:
+- pnpm install: instala dependencias
+- pnpm dev: inicia desarrollo en localhost:4321
+- pnpm build: genera build de produccion en dist
+- pnpm preview: sirve localmente el build generado
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `pnpm install`             | Installs dependencies                            |
-| `pnpm dev`             | Starts local dev server at `localhost:4321`      |
-| `pnpm build`           | Build your production site to `./dist/`          |
-| `pnpm preview`         | Preview your build locally, before deploying     |
-| `pnpm astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `pnpm astro -- --help` | Get help using the Astro CLI                     |
+## Build de Produccion
 
-## 👀 Want to learn more?
+1. pnpm install
+2. pnpm build
+3. verificar salida en dist
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+## Deploy con Vercel CLI
+
+Prerequisitos:
+
+- Node 22.12+ (segun engines)
+- Vercel CLI instalada de forma global
+
+Instalacion de CLI (si no existe):
+
+- pnpm add -g vercel
+
+Primer setup:
+
+1. vercel login
+2. vercel link
+
+Deploy:
+
+1. pnpm build
+2. vercel --prod
+
+Notas:
+
+- El proyecto usa output static en Astro.
+- Si tenes variables de entorno, configurarlas en Vercel antes del deploy.

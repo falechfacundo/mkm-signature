@@ -39,24 +39,94 @@ export default function DeliverablesSection({ service }: Props) {
           {items.map((item, i) => {
             const Icon = ((Icons[item.icon as keyof typeof Icons] as ElementType) ?? Icons.Box) as ElementType;
             const iconColor = i === items.length - 1 ? 'var(--turquesa-500)' : 'var(--accent)';
+            const accentSoft = i === items.length - 1 ? 'rgba(0, 209, 191, 0.2)' : 'rgba(174, 53, 255, 0.2)';
 
             return (
               <motion.article
                 key={`${item.title}-${i}`}
                 initial={{ opacity: 0, y: 40, scale: 0.96 }}
                 whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                whileHover={{ y: -6, scale: 1.012 }}
                 viewport={{ once: true, margin: '-60px' }}
                 transition={{ delay: i * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1], type: 'spring', stiffness: 120, damping: 16 }}
+                className="group"
                 style={{
-                  background: 'var(--bg-surface)',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  background: 'linear-gradient(180deg, rgba(26,26,26,0.96) 0%, rgba(17,17,17,0.96) 100%)',
                   border: '1px solid var(--bg-border)',
-                  borderRadius: '14px',
-                  padding: '1.25rem',
+                  borderRadius: '16px',
+                  padding: '1.35rem',
+                  boxShadow: '0 14px 26px -22px rgba(0,0,0,0.9)',
                 }}
               >
-                <Icon size={20} color={iconColor} />
-                <h3 style={{ margin: '0.8rem 0 0.35rem', fontSize: '1.05rem' }}>{item.title}</h3>
-                <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.6 }}>{item.desc}</p>
+                <div
+                  className="opacity-30 transition-opacity duration-300 group-hover:opacity-100"
+                  style={{
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    height: '2px',
+                    background: i === items.length - 1
+                      ? 'linear-gradient(90deg, transparent 0%, var(--turquesa-500) 35%, transparent 100%)'
+                      : 'linear-gradient(90deg, transparent 0%, var(--accent) 35%, transparent 100%)',
+                  }}
+                />
+
+                <div
+                  className="opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    pointerEvents: 'none',
+                    background: `radial-gradient(circle at 95% 0%, ${accentSoft} 0%, rgba(0,0,0,0) 45%)`,
+                  }}
+                />
+
+                <div style={{ position: 'relative', zIndex: 1 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
+                    <div
+                      className="mono"
+                      style={{
+                        fontSize: '0.66rem',
+                        letterSpacing: '0.1em',
+                        textTransform: 'uppercase',
+                        color: 'var(--text-muted)',
+                      }}
+                    >
+                      Entregable {(i + 1).toString().padStart(2, '0')}
+                    </div>
+                    <div
+                      style={{
+                        width: '2.35rem',
+                        height: '2.35rem',
+                        borderRadius: '0.75rem',
+                        display: 'grid',
+                        placeItems: 'center',
+                        border: `1px solid ${accentSoft}`,
+                        background: i === items.length - 1
+                          ? 'linear-gradient(135deg, rgba(0,209,191,0.1) 0%, rgba(0,209,191,0.02) 100%)'
+                          : 'linear-gradient(135deg, rgba(174,53,255,0.1) 0%, rgba(174,53,255,0.02) 100%)',
+                      }}
+                    >
+                      <Icon size={18} color={iconColor} />
+                    </div>
+                  </div>
+
+                  <h3
+                    style={{
+                      margin: '0 0 0.45rem',
+                      fontSize: '1.08rem',
+                      lineHeight: 1.3,
+                      color: 'var(--text-primary)',
+                      fontFamily: 'var(--font-display)',
+                    }}
+                  >
+                    {item.title}
+                  </h3>
+                  <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.65 }}>{item.desc}</p>
+                </div>
               </motion.article>
             );
           })}

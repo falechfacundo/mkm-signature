@@ -1,12 +1,12 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import * as Icons from 'lucide-react';
 import { DELIVERABLES } from '@data/deliverables';
 import type { ServiceConfig } from '@config/services';
 import type { ElementType } from 'react';
 import { useMotionValue, useReducedMotion, useSpring } from 'framer-motion';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 
 interface Props {
   service: ServiceConfig;
@@ -26,6 +26,38 @@ interface DeliverableCardProps {
   total: number;
 }
 
+interface CardInsight {
+  problem: string;
+  outcome: string;
+  eta: string;
+  before: string;
+  after: string;
+}
+
+const CARD_INSIGHTS: Record<string, CardInsight> = {
+  'Performance optimizada': {
+    problem: 'El sitio tarda en cargar y se pierde atencion en los primeros segundos.',
+    outcome: 'Mejor retencion inicial y navegacion mas fluida desde la primera vista.',
+    eta: 'Checklist tecnico desde la primera iteracion.',
+    before: 'Carga lenta, rebote alto y paginas pesadas.',
+    after: 'Carga agil, experiencia estable y recorrido continuo.',
+  },
+  'SEO on-page': {
+    problem: 'Paginas sin estructura semantica ni metadata consistente.',
+    outcome: 'Arquitectura clara para indexacion y mejor lectura por buscadores.',
+    eta: 'Implementado durante desarrollo + verificacion en entrega.',
+    before: 'Contenido sin contexto SEO y headings desordenados.',
+    after: 'Metadatos, headings y jerarquia listos para indexar.',
+  },
+  'Captacion de leads': {
+    problem: 'Consultas sin trazabilidad y formularios desconectados.',
+    outcome: 'Leads ordenados y conectados al flujo comercial en tiempo real.',
+    eta: 'Configurado en etapa de integraciones.',
+    before: 'Leads dispersos en correo y mensajes sin seguimiento.',
+    after: 'Leads centralizados con origen y estado visible.',
+  },
+};
+
 function DeliverableCard({ title, desc, icon, index, total }: DeliverableCardProps) {
   const prefersReducedMotion = useReducedMotion();
   const cardRef = useRef<HTMLElement | null>(null);
@@ -35,6 +67,9 @@ function DeliverableCard({ title, desc, icon, index, total }: DeliverableCardPro
   const rotateYSpring = useSpring(rotateY, { stiffness: 160, damping: 16, mass: 0.3 });
 
   const isFeatured = index === total - 1;
+  const insight = CARD_INSIGHTS[title];
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [comparisonMode, setComparisonMode] = useState<'before' | 'after'>('before');
   const Icon = ((Icons[icon as keyof typeof Icons] as ElementType) ?? Icons.Box) as ElementType;
   const iconColor = isFeatured ? 'var(--turquesa-500)' : 'var(--accent)';
   const accentSoft = isFeatured ? 'rgba(0, 209, 191, 0.25)' : 'rgba(174, 53, 255, 0.24)';
@@ -174,6 +209,129 @@ function DeliverableCard({ title, desc, icon, index, total }: DeliverableCardPro
           {title}
         </h3>
         <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.65 }}>{desc}</p>
+
+        {insight && (
+          <>
+            <button
+              type="button"
+              onClick={() => setIsExpanded((current) => !current)}
+              className="mono"
+              style={{
+                marginTop: '0.9rem',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '0.35rem',
+                fontSize: '0.66rem',
+                letterSpacing: '0.09em',
+                textTransform: 'uppercase',
+                color: 'var(--accent)',
+                border: '1px solid color-mix(in srgb, var(--accent) 45%, transparent)',
+                borderRadius: '999px',
+                padding: '0.3rem 0.65rem',
+                background: 'transparent',
+                cursor: 'pointer',
+              }}
+            >
+              {isExpanded ? 'Ocultar impacto' : 'Ver impacto'}
+              <span aria-hidden="true">{isExpanded ? '-' : '+'}</span>
+            </button>
+
+            <AnimatePresence initial={false}>
+              {isExpanded && (
+                <motion.div
+                  key="insight"
+                  initial={{ opacity: 0, y: 10, height: 0 }}
+                  animate={{ opacity: 1, y: 0, height: 'auto' }}
+                  exit={{ opacity: 0, y: 6, height: 0 }}
+                  transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+                  style={{ overflow: 'hidden' }}
+                >
+                  <div
+                    style={{
+                      marginTop: '0.95rem',
+                      borderRadius: '12px',
+                      border: '1px solid var(--bg-border)',
+                      background: 'var(--bg-surface)',
+                      padding: '0.85rem',
+                    }}
+                  >
+                    <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.82rem', lineHeight: 1.55 }}>
+                      <strong style={{ color: 'var(--text-primary)' }}>Problema:</strong> {insight.problem}
+                    </p>
+                    <p style={{ margin: '0.45rem 0 0', color: 'var(--text-secondary)', fontSize: '0.82rem', lineHeight: 1.55 }}>
+                      <strong style={{ color: 'var(--text-primary)' }}>Resultado:</strong> {insight.outcome}
+                    </p>
+                    <p style={{ margin: '0.45rem 0 0', color: 'var(--text-secondary)', fontSize: '0.82rem', lineHeight: 1.55 }}>
+                      <strong style={{ color: 'var(--text-primary)' }}>Tiempo tipico:</strong> {insight.eta}
+                    </p>
+
+                    <div
+                      className="mono"
+                      style={{
+                        display: 'inline-flex',
+                        marginTop: '0.7rem',
+                        border: '1px solid var(--bg-border)',
+                        borderRadius: '999px',
+                        overflow: 'hidden',
+                      }}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => setComparisonMode('before')}
+                        style={{
+                          fontSize: '0.62rem',
+                          letterSpacing: '0.08em',
+                          textTransform: 'uppercase',
+                          padding: '0.3rem 0.6rem',
+                          border: 0,
+                          cursor: 'pointer',
+                          background: comparisonMode === 'before' ? 'var(--accent)' : 'transparent',
+                          color: comparisonMode === 'before' ? '#0b0b0b' : 'var(--text-secondary)',
+                        }}
+                      >
+                        Antes
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setComparisonMode('after')}
+                        style={{
+                          fontSize: '0.62rem',
+                          letterSpacing: '0.08em',
+                          textTransform: 'uppercase',
+                          padding: '0.3rem 0.6rem',
+                          border: 0,
+                          cursor: 'pointer',
+                          background: comparisonMode === 'after' ? 'var(--turquesa-500)' : 'transparent',
+                          color: comparisonMode === 'after' ? '#071414' : 'var(--text-secondary)',
+                        }}
+                      >
+                        Despues
+                      </button>
+                    </div>
+
+                    <AnimatePresence mode="wait" initial={false}>
+                      <motion.p
+                        key={comparisonMode}
+                        initial={{ opacity: 0, x: comparisonMode === 'before' ? -8 : 8 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        exit={{ opacity: 0, x: comparisonMode === 'before' ? 8 : -8 }}
+                        transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                        style={{
+                          margin: '0.65rem 0 0',
+                          color: 'var(--text-primary)',
+                          fontSize: '0.82rem',
+                          lineHeight: 1.55,
+                        }}
+                      >
+                        {comparisonMode === 'before' ? insight.before : insight.after}
+                      </motion.p>
+                    </AnimatePresence>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </>
+        )}
       </div>
     </motion.article>
   );

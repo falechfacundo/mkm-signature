@@ -48,6 +48,7 @@ La personalizacion del contenido se hace por query params:
 - industry: retail | startup | local | saas | default
 - client: texto libre opcional
 - lang: es | en
+- platform | plataforma: default | workana
 
 Defaults si no se envia nada o llega un valor invalido:
 
@@ -55,11 +56,13 @@ Defaults si no se envia nada o llega un valor invalido:
 - industry=default
 - lang=es
 - client=null
+- platform=default
 
 Ejemplos:
 
 - /?service=landing
 - /?service=bot&industry=saas&client=Acme&lang=en
+- /?service=bot&industry=saas&client=Acme&platform=workana
 
 ## Publicacion en GitHub
 

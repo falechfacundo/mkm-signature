@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, type ElementType } from 'react';
-import { motion } from 'framer-motion';
+import { useEffect, useRef, useState, type ElementType } from 'react';
+import { motion, useInView } from 'framer-motion';
 import {
   LayoutDashboard,
   FileText,
@@ -83,10 +83,31 @@ const TABS: { id: TabId; label: string; icon: ElementType }[] = [
 ];
 
 export default function PortalPreviewMock() {
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const isInView = useInView(containerRef, { once: false, margin: '-100px' });
   const [activeTab, setActiveTab] = useState<TabId>('roadmap');
+  const [isManual, setIsManual] = useState(false);
+
+  const TAB_ORDER: TabId[] = ['roadmap', 'archivos', 'pagos', 'mensajes'];
+
+  useEffect(() => {
+    if (!isInView || isManual) {
+      return;
+    }
+
+    const interval = setInterval(() => {
+      setActiveTab((prev) => {
+        const currentIndex = TAB_ORDER.indexOf(prev);
+        return TAB_ORDER[(currentIndex + 1) % TAB_ORDER.length];
+      });
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [isInView, isManual]);
 
   return (
     <motion.div
+      ref={containerRef}
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -161,7 +182,10 @@ export default function PortalPreviewMock() {
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => {
+                  setActiveTab(tab.id);
+                  setIsManual(true);
+                }}
                 style={{
                   width: '100%',
                   display: 'flex',

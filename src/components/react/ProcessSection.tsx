@@ -94,7 +94,7 @@ export default function ProcessSection() {
               <svg
                 style={{
                   position: 'absolute',
-                  top: '18px',
+                  top: '20px',
                   left: '20px',
                   right: '20px',
                   width: 'calc(100% - 40px)',
@@ -135,7 +135,7 @@ export default function ProcessSection() {
                 />
               )}
 
-              <div style={{ display: 'grid', gap: '1.25rem', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', marginTop: '1rem' }}>
+              <div style={{ display: 'grid', gap: '1.25rem', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', marginTop: '2rem' }}>
                 {PROCESS_STEPS.map((step, i) => {
                   const isActive = i <= activeIndex;
                   const isCurrent = i === activeIndex;
@@ -153,11 +153,8 @@ export default function ProcessSection() {
                       }}
                       transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
                       style={{
-                        paddingTop: '2.8rem',
+                        paddingTop: '3.6rem',
                         transformPerspective: '1000px',
-                        borderRadius: '14px',
-                        border: isCurrent ? '1px solid color-mix(in srgb, var(--accent) 65%, transparent)' : '1px solid transparent',
-                        background: isCurrent ? 'linear-gradient(180deg, rgba(174,53,255,0.08) 0%, rgba(174,53,255,0.02) 100%)' : 'transparent',
                         paddingInline: '0.65rem',
                         boxShadow: distance === 0 ? '0 14px 28px -22px rgba(0,0,0,0.92)' : 'none',
                       }}
@@ -187,29 +184,43 @@ export default function ProcessSection() {
                           {step.number}
                         </motion.span>
                       </div>
-                      <motion.h3
-                        animate={{ color: isActive ? 'var(--text-primary)' : 'var(--text-muted)' }}
+                      <motion.div
+                        animate={{
+                          borderColor: isCurrent ? 'color-mix(in srgb, var(--accent) 65%, transparent)' : 'transparent',
+                          background: isCurrent ? 'linear-gradient(180deg, rgba(174,53,255,0.08) 0%, rgba(174,53,255,0.02) 100%)' : 'transparent',
+                        }}
                         transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                        style={{ margin: 0, fontSize: '1.1rem' }}
-                      >
-                        {step.title}
-                      </motion.h3>
-                      <p style={{ margin: '0.55rem 0 0.75rem', color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.6 }}>
-                        {step.desc}
-                      </p>
-                      <span
-                        className="mono"
                         style={{
-                          fontSize: '0.7rem',
-                          color: 'var(--text-muted)',
-                          background: isCurrent ? 'color-mix(in srgb, var(--accent) 20%, var(--bg-surface))' : 'var(--bg-surface)',
-                          borderRadius: '999px',
-                          padding: '0.25rem 0.55rem',
-                          border: isCurrent ? '1px solid color-mix(in srgb, var(--accent) 60%, transparent)' : '1px solid transparent',
+                          marginTop: '0.95rem',
+                          borderRadius: '14px',
+                          border: '1px solid transparent',
+                          padding: '1rem 0.95rem 0.9rem',
                         }}
                       >
-                        {step.duration}
-                      </span>
+                        <motion.h3
+                          animate={{ color: isActive ? 'var(--text-primary)' : 'var(--text-muted)' }}
+                          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                          style={{ margin: 0, fontSize: '1.1rem' }}
+                        >
+                          {step.title}
+                        </motion.h3>
+                        <p style={{ margin: '0.55rem 0 0.75rem', color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.6 }}>
+                          {step.desc}
+                        </p>
+                        <span
+                          className="mono"
+                          style={{
+                            fontSize: '0.7rem',
+                            color: 'var(--text-muted)',
+                            background: isCurrent ? 'color-mix(in srgb, var(--accent) 20%, var(--bg-surface))' : 'var(--bg-surface)',
+                            borderRadius: '999px',
+                            padding: '0.25rem 0.55rem',
+                            border: isCurrent ? '1px solid color-mix(in srgb, var(--accent) 60%, transparent)' : '1px solid transparent',
+                          }}
+                        >
+                          {step.duration}
+                        </span>
+                      </motion.div>
                     </motion.article>
                   );
                 })}

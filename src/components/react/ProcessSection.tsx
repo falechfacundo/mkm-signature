@@ -94,7 +94,7 @@ export default function ProcessSection() {
               <svg
                 style={{
                   position: 'absolute',
-                  top: '23px',
+                  top: '18px',
                   left: '20px',
                   right: '20px',
                   width: 'calc(100% - 40px)',
@@ -121,7 +121,7 @@ export default function ProcessSection() {
                 <motion.div
                   style={{
                     position: 'absolute',
-                    top: '17px',
+                    top: '12px',
                     left: auraX,
                     width: '1.1rem',
                     height: '1.1rem',
@@ -135,7 +135,7 @@ export default function ProcessSection() {
                 />
               )}
 
-              <div style={{ display: 'grid', gap: '1.25rem', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))' }}>
+              <div style={{ display: 'grid', gap: '1.25rem', gridTemplateColumns: 'repeat(auto-fit, minmax(190px, 1fr))', marginTop: '1rem' }}>
                 {PROCESS_STEPS.map((step, i) => {
                   const isActive = i <= activeIndex;
                   const isCurrent = i === activeIndex;
@@ -153,7 +153,7 @@ export default function ProcessSection() {
                       }}
                       transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
                       style={{
-                        paddingTop: '2rem',
+                        paddingTop: '2.8rem',
                         transformPerspective: '1000px',
                         borderRadius: '14px',
                         border: isCurrent ? '1px solid color-mix(in srgb, var(--accent) 65%, transparent)' : '1px solid transparent',

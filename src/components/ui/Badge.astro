@@ -1,3 +1,16 @@
-<span>
+---
+interface Props {
+  variant?: 'default' | 'accent' | 'success';
+}
+
+const { variant = 'default' } = Astro.props;
+const styles = {
+  default: 'border border-[--bg-border] bg-[--bg-surface] text-[--text-secondary]',
+  accent: 'border border-[--accent]/30 bg-[--accent-muted] text-[--accent]',
+  success: 'border border-[--turquesa-500]/30 bg-[--accent-2-muted] text-[--turquesa-500]',
+} as const;
+---
+
+<span class={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono ${styles[variant]}`}>
   <slot />
 </span>

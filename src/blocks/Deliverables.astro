@@ -1,15 +1,86 @@
 ---
 import type { ServiceConfig } from '@config/services';
+import { DELIVERABLES } from '@data/deliverables';
 
 interface Props {
   service: ServiceConfig;
 }
 
 const { service } = Astro.props as Props;
+const items = DELIVERABLES[service.id];
+
+const ICON_PATHS: Record<string, string> = {
+  Monitor: 'M3 4h18v14H3z M8 20h8',
+  Zap: 'M13 2L4 14h7l-1 8 9-12h-7z',
+  Search: 'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14zm10 17-4.35-4.35',
+  FormInput: 'M4 5h16v14H4z M8 9h8 M8 13h4',
+  Code2: 'M9 8 4 12l5 4 M15 8l5 4-5 4',
+  ShieldCheck: 'M12 3 5 6v6c0 5 3.5 8 7 9 3.5-1 7-4 7-9V6z M9 12l2 2 4-4',
+  ShoppingCart: 'M3 5h2l2.6 9h9.8L20 7H7 M10 19a1 1 0 1 0 0 .1 M17 19a1 1 0 1 0 0 .1',
+  CreditCard: 'M3 6h18v12H3z M3 10h18 M7 15h4',
+  Truck: 'M2 8h11v8H2z M13 10h4l3 3v3h-7z M6 18a2 2 0 1 0 0 .1 M17 18a2 2 0 1 0 0 .1',
+  Users: 'M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2 M9 7a4 4 0 1 0 0 .1 M22 21v-2a4 4 0 0 0-3-3.87 M16 3.13a4 4 0 0 1 0 7.75',
+  BarChart2: 'M4 19V9 M10 19V5 M16 19v-7 M22 19H2',
+  MessageSquare: 'M21 15a2 2 0 0 1-2 2H8l-5 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z',
+  GitBranch: 'M6 3v12 M6 7h8a4 4 0 1 1 0 8h-3 M6 21a2 2 0 1 0 0-.1 M14 7a2 2 0 1 0 0-.1',
+  UserCheck: 'M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2 M8.5 7a4 4 0 1 0 0 .1 M17 11l2 2 4-4',
+  Settings2: 'M20 7h-9 M14 17H5 M5 7h2 M20 17h-2 M9 7a2 2 0 1 0 0-.1 M16 17a2 2 0 1 0 0-.1',
+  Plug: 'M7 7v5a5 5 0 0 0 10 0V7 M9 4v3 M15 4v3 M12 17v4',
+};
 ---
 
-<section id="entregables" class="py-16">
+<section id="entregables" class="py-16 md:py-24" style="background:var(--bg-primary)">
   <div class="max-w-6xl mx-auto px-6">
-    <h2>Entregables - {service.label}</h2>
+    <header class="scroll-reveal-bottom">
+      <span class="mono text-xs tracking-widest uppercase" style="color:var(--accent)">Entregables</span>
+      <h2 class="text-4xl mt-2" style="font-family:var(--font-display)">Que recibis exactamente</h2>
+      <p class="mt-3" style="color:var(--text-secondary)">Sin letra chica. Todo lo que forma parte del proyecto.</p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-12">
+      {items.map((item, index) => {
+        const iconColor = item.icon === 'ShieldCheck' ? 'var(--turquesa-500)' : 'var(--accent)';
+        const path = ICON_PATHS[item.icon] ?? ICON_PATHS.Code2;
+        return (
+          <article class={`bg-[--bg-surface] border border-[--bg-border] rounded-xl p-6 card-hover scroll-reveal-bottom stagger-${Math.min(index + 1, 6)}`}>
+            <svg aria-hidden="true" viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke={iconColor} stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d={path}></path>
+            </svg>
+            <h3 class="text-lg mt-3" style="font-family:var(--font-display); color:var(--text-primary)">{item.title}</h3>
+            <p class="text-sm mt-1" style="color:var(--text-secondary)">{item.desc}</p>
+          </article>
+        );
+      })}
+    </div>
+
+    <div class="mt-16 border-t border-[--bg-border] pt-12">
+      <h3 class="text-2xl" style="font-family:var(--font-display)">Garantias incluidas</h3>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+        <article class="scroll-reveal-bottom stagger-1">
+          <p class="flex items-start gap-2 text-sm" style="color:var(--text-secondary)">
+            <svg aria-hidden="true" viewBox="0 0 24 24" class="w-4 h-4 mt-0.5" fill="none" stroke="var(--turquesa-500)" stroke-width="2">
+              <path d="M4 12l5 5L20 6"></path>
+            </svg>
+            <span><strong style="color:var(--text-primary)">Testeado antes de entrega</strong> - Revisamos todo antes de cerrar el proyecto</span>
+          </p>
+        </article>
+        <article class="scroll-reveal-bottom stagger-2">
+          <p class="flex items-start gap-2 text-sm" style="color:var(--text-secondary)">
+            <svg aria-hidden="true" viewBox="0 0 24 24" class="w-4 h-4 mt-0.5" fill="none" stroke="var(--turquesa-500)" stroke-width="2">
+              <path d="M4 12l5 5L20 6"></path>
+            </svg>
+            <span><strong style="color:var(--text-primary)">Revisiones incluidas</strong> - Minimo 2 rondas de feedback sin cargo</span>
+          </p>
+        </article>
+        <article class="scroll-reveal-bottom stagger-3">
+          <p class="flex items-start gap-2 text-sm" style="color:var(--text-secondary)">
+            <svg aria-hidden="true" viewBox="0 0 24 24" class="w-4 h-4 mt-0.5" fill="none" stroke="var(--turquesa-500)" stroke-width="2">
+              <path d="M4 12l5 5L20 6"></path>
+            </svg>
+            <span><strong style="color:var(--text-primary)">Soporte 30 dias</strong> - Cualquier problema post-entrega lo resolvemos</span>
+          </p>
+        </article>
+      </div>
+    </div>
   </div>
 </section>

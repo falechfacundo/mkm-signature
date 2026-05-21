@@ -1,14 +1,22 @@
 ---
 interface Props {
+  variant?: 'primary' | 'ghost' | 'outline';
   href?: string;
   target?: string;
   class?: string;
 }
 
-const { href, target, class: className } = Astro.props;
+const { variant = 'primary', href, target, class: className } = Astro.props;
+
+const base = 'inline-flex items-center justify-center font-semibold rounded-lg transition-all duration-200 px-6 py-3 text-sm no-underline cursor-pointer';
+const variants = {
+  primary: 'bg-[--accent] text-[#080808] hover:bg-[--accent-hover]',
+  ghost: 'border border-[--bg-border] text-[--text-secondary] hover:border-[--accent] hover:text-[--text-primary]',
+  outline: 'border border-[--accent] text-[--accent] hover:bg-[--accent-muted]',
+} as const;
 const Tag = href ? 'a' : 'button';
 ---
 
-<Tag href={href} target={target} class={className}>
+<Tag href={href} target={target} class={`${base} ${variants[variant]} ${className ?? ''}`}>
   <slot />
 </Tag>

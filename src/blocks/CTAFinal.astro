@@ -1,6 +1,8 @@
 ---
 import type { HubParams } from '@lib/params';
 import type { ServiceConfig } from '@config/services';
+import { SITE } from '@config/site';
+import Button from '@components/ui/Button.astro';
 
 interface Props {
   params: HubParams;
@@ -10,8 +12,35 @@ interface Props {
 const { service } = Astro.props as Props;
 ---
 
-<section id="cta" class="py-16">
-  <div class="max-w-6xl mx-auto px-6">
-    <h2>CTA - {service.ctaLabel}</h2>
+<section id="cta" class="py-16 md:py-32 relative overflow-hidden" style="background:var(--bg-primary)">
+  <div
+    class="absolute inset-0 pointer-events-none"
+    style="background:radial-gradient(circle at center, rgba(174,53,255,0.06) 0%, transparent 62%)"
+    aria-hidden="true"
+  ></div>
+
+  <div class="max-w-3xl mx-auto px-6 text-center scroll-reveal-bottom relative">
+    <span class="mono text-xs tracking-widest uppercase" style="color:var(--accent)">Todo claro?</span>
+
+    <h2 class="mt-4 leading-tight" style="font-size:clamp(2.5rem,5vw,4rem); font-family:var(--font-display); color:var(--text-primary)">
+      Listo para arrancar.
+    </h2>
+
+    <p class="text-xl mt-4 max-w-xl mx-auto" style="color:var(--text-secondary)">
+      La propuesta esta esperando tu respuesta en Workana. Responde y empezamos en 24hs.
+    </p>
+
+    <Button href={SITE.workanaCta} target="_blank" class="mt-8 inline-flex text-lg px-10 py-5">
+      {service.ctaLabel} -&gt;
+    </Button>
+
+    <p class="mt-6 text-sm" style="color:var(--text-muted)">
+      Tenes alguna pregunta antes?
+      <a href={`mailto:${SITE.contactEmail}`} class="underline-offset-4 hover:underline" style="color:var(--accent)">
+        Escribinos aca.
+      </a>
+    </p>
+
+    <p class="mono text-xs mt-8" style="color:var(--text-muted)">Respuesta en menos de 2hs - Sin compromiso</p>
   </div>
 </section>

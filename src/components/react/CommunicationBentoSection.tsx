@@ -5,7 +5,12 @@ import { useMemo, useState } from 'react';
 
 type PanelId = 'sla' | 'channels' | 'rituals' | null;
 
-const CHANNELS = ['Portal del proyecto', 'Email', 'Chat interno', 'Videocall'];
+const CHANNELS = [
+  // 'Portal del proyecto',
+  'Email',
+  'Chat interno',
+  'Videocall',
+];
 
 const RITUALS = [
   'Kickoff inicial con alcance y riesgos',
@@ -18,10 +23,10 @@ const KPIS = [
   { label: 'SLA respuesta', value: '<2hs' },
   { label: 'Frecuencia update', value: '48-72hs' },
   { label: 'Trazabilidad', value: '100%' },
-  { label: 'Canales activos', value: '4' },
+  { label: 'Canales activos', value: '3' },
 ];
 
-const PANEL_CONTENT: Record<Exclude<PanelId, null>, { title: string; bullets: string[] }> = {
+const PANEL_CONTENT: Record<Exclude<PanelId, null>, { title: string; bullets: string[]; meta: string[] }> = {
   sla: {
     title: 'Regla operativa SLA',
     bullets: [
@@ -29,14 +34,16 @@ const PANEL_CONTENT: Record<Exclude<PanelId, null>, { title: string; bullets: st
       'Bloqueos criticos se escalan el mismo dia.',
       'Si hay dependencia externa, se informa ETA y plan alterno.',
     ],
+    meta: ['Tiempos de respuesta inciertos', 'Bloqueos criticos sin priorizacion'],
   },
   channels: {
     title: 'Uso recomendado por canal',
     bullets: [
-      'Portal: decisiones y entregables versionados.',
+      // 'Portal: decisiones y entregables versionados.',
       'Email: resumenes ejecutivos y aprobaciones.',
       'Chat interno: bloqueos cortos y coordinacion rapida.',
     ],
+    meta: ['Mensajes dispersos entre canales', 'Decisiones sin trazabilidad'],
   },
   rituals: {
     title: 'Cadencia de trabajo',
@@ -45,6 +52,7 @@ const PANEL_CONTENT: Record<Exclude<PanelId, null>, { title: string; bullets: st
       'El avance se mide por hitos, no por mensajes enviados.',
       'El cierre incluye handoff y plan de soporte.',
     ],
+    meta: ['Reuniones sin entregable claro', 'Avance medido por percepcion'],
   },
 };
 
@@ -69,18 +77,20 @@ function InteractiveCard({ panelId, kicker, title, description, tone = 'accent',
   return (
     <article
       style={{
+        position: 'relative',
         border: borderColor,
         borderRadius: '16px',
         background: 'linear-gradient(180deg, rgba(23,23,23,0.96) 0%, rgba(16,16,16,0.96) 100%)',
         boxShadow: '0 14px 26px -22px rgba(0,0,0,0.9)',
         overflow: 'hidden',
-        minHeight: '280px',
+        minHeight: '265px',
       }}
       onMouseEnter={() => setActivePanel(panelId)}
       onMouseLeave={() => setActivePanel(null)}
       onClick={() => setActivePanel(isOpen ? null : panelId)}
     >
       <div style={{ padding: '1.15rem', height: '100%' }}>
+        <div style={{ position: 'relative', height: '215px', overflow: 'hidden' }}>
         <AnimatePresence mode="wait" initial={false}>
           {isOpen ? (
             <motion.div
@@ -89,6 +99,13 @@ function InteractiveCard({ panelId, kicker, title, description, tone = 'accent',
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+              style={{
+                position: 'absolute',
+                inset: 0,
+                display: 'flex',
+                flexDirection: 'column',
+                overflow: 'hidden',
+              }}
             >
               <p className="mono" style={{ margin: 0, fontSize: '0.62rem', color: accentColor, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                 {content.title}
@@ -107,6 +124,17 @@ function InteractiveCard({ panelId, kicker, title, description, tone = 'accent',
                   </motion.li>
                 ))}
               </ul>
+              <p className="mono" style={{ margin: '0.8rem 0 0', fontSize: '0.62rem', color: accentColor, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                Problemas resueltos
+              </p>
+              <ul style={{ margin: '0.45rem 0 0', padding: 0, listStyle: 'none', display: 'grid', gap: '0.42rem' }}>
+                {content.meta.map((item) => (
+                  <li key={item} style={{ display: 'flex', gap: '0.5rem', color: 'var(--text-secondary)', fontSize: '0.8rem', lineHeight: 1.45 }}>
+                    <span style={{ width: '6px', height: '6px', marginTop: '0.36rem', borderRadius: '999px', background: accentColor, flexShrink: 0 }} />
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
             </motion.div>
           ) : (
             <motion.div
@@ -115,18 +143,42 @@ function InteractiveCard({ panelId, kicker, title, description, tone = 'accent',
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -8 }}
               transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+              style={{
+                position: 'absolute',
+                inset: 0,
+                overflow: 'hidden',
+              }}
             >
-              <span className="mono" style={{ fontSize: '0.66rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: accentColor }}>
-                {kicker}
-              </span>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.6rem' }}>
+                <span className="mono" style={{ fontSize: '0.66rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: accentColor }}>
+                  {kicker}
+                </span>
+                <span
+                  className="mono"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.28rem',
+                    fontSize: '0.58rem',
+                    letterSpacing: '0.08em',
+                    textTransform: 'uppercase',
+                    color: accentColor,
+                    border: `1px solid color-mix(in srgb, ${accentColor} 45%, transparent)`,
+                    borderRadius: '999px',
+                    padding: '0.2rem 0.45rem',
+                    background: 'color-mix(in srgb, var(--bg-surface) 88%, transparent)',
+                  }}
+                >
+                  <span aria-hidden="true">*</span>
+                  Interactivo
+                </span>
+              </div>
               <h3 style={{ margin: '0.45rem 0 0', fontFamily: 'var(--font-display)', color: 'var(--text-primary)', fontSize: '1.6rem' }}>{title}</h3>
-              <p style={{ margin: '0.42rem 0 0', color: 'var(--text-secondary)', lineHeight: 1.6, fontSize: '0.9rem' }}>{description}</p>
-              <p className="mono" style={{ margin: '0.75rem 0 0', fontSize: '0.62rem', color: accentColor, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
-                Hover o tap para revelar detalle
-              </p>
+              <p style={{ margin: '0.62rem 0 0', color: 'var(--text-secondary)', lineHeight: 1.72, fontSize: '1rem' }}>{description}</p>
             </motion.div>
           )}
         </AnimatePresence>
+        </div>
       </div>
     </article>
   );

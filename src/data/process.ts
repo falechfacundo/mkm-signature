@@ -21,7 +21,8 @@ export const PROCESS_STEPS: ProcessStep[] = [
   {
     number: '03',
     title: 'Desarrollo iterativo',
-    desc: 'Avance visible con updates regulares. Todo documentado en el portal del proyecto.',
+    // desc: 'Avance visible con updates regulares. Todo documentado en el portal del proyecto.',
+    desc: 'Avance visible con updates regulares y entregables documentados en cada iteracion.',
     duration: 'segun proyecto',
   },
   {

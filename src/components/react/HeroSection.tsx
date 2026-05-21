@@ -11,7 +11,11 @@ interface Props {
   service: ServiceConfig;
 }
 
-const TRUST_BADGES = ['Entrega garantizada', '30 dias de soporte', 'Portal de proyecto incluido'];
+const TRUST_BADGES = [
+  'Entrega garantizada',
+  '30 dias de soporte',
+  // 'Portal de proyecto incluido',
+];
 
 export default function HeroSection({ params, service }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);

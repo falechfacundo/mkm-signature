@@ -17,7 +17,8 @@ export const FAQ_UNIVERSAL: FAQItem[] = [
   },
   {
     q: 'Como se que entregas lo que prometes?',
-    a: 'Todo vive en el portal del proyecto: roadmap, milestones, pagos y archivos. Podes ver el estado real en cualquier momento. No hay actualizaciones por WhatsApp que se pierden.',
+    // a: 'Todo vive en el portal del proyecto: roadmap, milestones, pagos y archivos. Podes ver el estado real en cualquier momento. No hay actualizaciones por WhatsApp que se pierden.',
+    a: 'Trabajamos con alcance documentado, hitos claros y actualizaciones regulares para que siempre tengas visibilidad real del avance.',
   },
   {
     q: 'Por que elegirte a vos y no a otro?',

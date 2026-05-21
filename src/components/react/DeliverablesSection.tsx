@@ -88,9 +88,6 @@ function DeliverableCard({ title, desc, icon, index, total }: DeliverableCardPro
 
     rotateX.set((0.5 - relativeY) * 12);
     rotateY.set((relativeX - 0.5) * 12);
-
-    event.currentTarget.style.setProperty('--mx', `${relativeX * 100}%`);
-    event.currentTarget.style.setProperty('--my', `${relativeY * 100}%`);
   };
 
   const handleLeave = () => {
@@ -117,7 +114,7 @@ function DeliverableCard({ title, desc, icon, index, total }: DeliverableCardPro
       ref={cardRef}
       initial={{ opacity: 0, y: 44, scale: 0.94, rotateX: prefersReducedMotion ? 0 : -12 }}
       whileInView={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
-      whileHover={prefersReducedMotion ? undefined : { y: -10, scale: 1.02 }}
+        whileHover={prefersReducedMotion ? undefined : { y: -10 }}
       viewport={{ once: true, margin: '-60px' }}
       transition={{ delay: index * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1], type: 'spring', stiffness: 120, damping: 16 }}
       onMouseMove={handleMove}
@@ -138,8 +135,6 @@ function DeliverableCard({ title, desc, icon, index, total }: DeliverableCardPro
         background: isFeatured
           ? 'linear-gradient(180deg, rgba(15,36,33,0.96) 0%, rgba(14,18,18,0.96) 100%)'
           : 'linear-gradient(180deg, rgba(26,26,26,0.96) 0%, rgba(17,17,17,0.96) 100%)',
-        ['--mx' as string]: '50%',
-        ['--my' as string]: '50%',
       }}
     >
       <motion.div
@@ -157,30 +152,6 @@ function DeliverableCard({ title, desc, icon, index, total }: DeliverableCardPro
         animate={prefersReducedMotion ? undefined : { x: ['-8%', '8%', '-8%'] }}
         transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut' }}
       />
-
-      <div
-        className="opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-        style={{
-          position: 'absolute',
-          inset: 0,
-          pointerEvents: 'none',
-          background: `radial-gradient(circle at var(--mx) var(--my), ${accentSoft} 0%, rgba(0,0,0,0) 42%)`,
-        }}
-      />
-
-      {isFeatured && !prefersReducedMotion && (
-        <motion.div
-          style={{
-            position: 'absolute',
-            inset: '-30%',
-            pointerEvents: 'none',
-            background: 'radial-gradient(circle at center, rgba(0,209,191,0.18) 0%, rgba(0,209,191,0.0) 58%)',
-            opacity: 0.32,
-          }}
-          animate={{ scale: [1, 1.06, 1], opacity: [0.22, 0.42, 0.22] }}
-          transition={{ duration: 4.2, repeat: Infinity, ease: 'easeInOut' }}
-        />
-      )}
 
       <div style={{ position: 'relative', zIndex: 1, transform: 'translateZ(22px)' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1rem' }}>
@@ -212,7 +183,14 @@ function DeliverableCard({ title, desc, icon, index, total }: DeliverableCardPro
           </div>
         </div>
 
-        <div style={{ marginTop: '0.2rem', minHeight: insight ? '8.8rem' : 'auto' }}>
+        <div
+          style={{
+            marginTop: '0.2rem',
+            height: insight ? '10.4rem' : 'auto',
+            position: insight ? 'relative' : 'static',
+            overflow: insight ? 'hidden' : 'visible',
+          }}
+        >
           <AnimatePresence mode="wait" initial={false}>
             {insight && isRevealed ? (
               <motion.div
@@ -221,6 +199,7 @@ function DeliverableCard({ title, desc, icon, index, total }: DeliverableCardPro
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -6 }}
                 transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                style={{ position: 'absolute', inset: 0 }}
               >
                 <h3
                   style={{
@@ -250,6 +229,7 @@ function DeliverableCard({ title, desc, icon, index, total }: DeliverableCardPro
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -6 }}
                 transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+                style={insight ? { position: 'absolute', inset: 0 } : undefined}
               >
                 <h3
                   style={{

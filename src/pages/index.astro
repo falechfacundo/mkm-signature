@@ -1,11 +1,27 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Hero from '@blocks/Hero.astro';
+import Process from '@blocks/Process.astro';
+import Deliverables from '@blocks/Deliverables.astro';
+import PortalPreview from '@blocks/PortalPreview.astro';
+import Communication from '@blocks/Communication.astro';
+import FAQ from '@blocks/FAQ.astro';
+import CTAFinal from '@blocks/CTAFinal.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+import { parseParams } from '@lib/params';
+import { SERVICES } from '@config/services';
+
+const params = parseParams(Astro.url);
+const service = SERVICES[params.service];
 ---
 
-<Layout>
-	<Welcome />
-</Layout>
+<BaseLayout params={params} service={service}>
+	<Hero params={params} service={service} />
+	<Process />
+	<Deliverables service={service} />
+	<PortalPreview />
+	<Communication />
+	<FAQ service={service} />
+	<CTAFinal params={params} service={service} />
+</BaseLayout>
+

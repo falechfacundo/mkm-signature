@@ -1,0 +1,17 @@
+---
+import type { HubParams } from '@lib/params';
+import type { ServiceConfig } from '@config/services';
+
+interface Props {
+  params: HubParams;
+  service: ServiceConfig;
+}
+
+const { service } = Astro.props;
+---
+
+<section id="hero" class="py-16">
+  <div class="max-w-6xl mx-auto px-6">
+    <h1>{service.headline}</h1>
+  </div>
+</section>

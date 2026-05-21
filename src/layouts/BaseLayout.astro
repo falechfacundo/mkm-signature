@@ -1,0 +1,61 @@
+---
+import '../styles/global.css';
+import type { HubParams } from '@lib/params';
+import type { ServiceConfig } from '@config/services';
+import { SITE } from '@config/site';
+
+interface Props {
+  params: HubParams;
+  service: ServiceConfig;
+}
+
+const { params, service } = Astro.props;
+
+const title = `Ad Astra - ${service.label}`;
+const description = service.subheadline;
+const ogImage = `${SITE.url}/og-image.png`;
+---
+
+<!doctype html>
+<html lang={params.lang} style="background-color:#080808">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:url" content={SITE.url} />
+    <meta property="og:type" content="website" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>{title}</title>
+  </head>
+  <body>
+    <slot />
+
+    <script>
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      document
+        .querySelectorAll('.scroll-reveal, .scroll-reveal-bottom, .scroll-reveal-left, .scroll-reveal-right')
+        .forEach((el) => observer.observe(el));
+    </script>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+---
+import type { ServiceConfig } from '@config/services';
+
+interface Props {
+  service: ServiceConfig;
+}
+
+const { service } = Astro.props as Props;
+---
+
+<section id="entregables" class="py-16">
+  <div class="max-w-6xl mx-auto px-6">
+    <h2>Entregables - {service.label}</h2>
+  </div>
+</section>

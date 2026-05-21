@@ -11,9 +11,10 @@ interface Props {
   service: ServiceConfig;
 }
 
-export default function CTASection({ service }: Props) {
+export default function CTASection({ params, service }: Props) {
   const sectionRef = useRef<HTMLElement | null>(null);
   const isInView = useInView(sectionRef, { once: false, margin: '-100px' });
+  const isWorkana = params.platform === 'workana';
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -21,6 +22,7 @@ export default function CTASection({ service }: Props) {
   });
 
   const bgScale = useTransform(scrollYProgress, [0, 0.5], [0.85, 1.2]);
+  const primaryCtaLabel = isWorkana ? 'ACEPTAR PROPUESTA' : service.ctaLabel;
 
   return (
     <section id="cta" ref={sectionRef} style={{ position: 'relative', overflow: 'hidden', background: 'var(--bg-primary)', padding: '6rem 0' }}>
@@ -43,47 +45,80 @@ export default function CTASection({ service }: Props) {
           La propuesta esta esperando tu respuesta en Workana. Responde y empezamos en 24hs.
         </p>
 
-        <motion.a
-          href={SITE.workanaCta}
-          target="_blank"
-          rel="noopener noreferrer"
-          animate={
-            isInView
-              ? {
-                  boxShadow: [
-                    '0 0 0 rgba(174,53,255,0.0)',
-                    '0 0 26px rgba(174,53,255,0.35)',
-                    '0 0 0 rgba(174,53,255,0.0)',
-                  ],
-                }
-              : { boxShadow: '0 0 0 rgba(174,53,255,0.0)' }
-          }
-          transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
-          style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            marginTop: '2rem',
-            padding: '1rem 2.2rem',
-            borderRadius: '10px',
-            textDecoration: 'none',
-            background: 'var(--accent)',
-            color: '#080808',
-            fontWeight: 700,
-            fontSize: '1.05rem',
-          }}
-        >
-          {service.ctaLabel} -&gt;
-        </motion.a>
+        {isWorkana ? (
+          <motion.span
+            animate={
+              isInView
+                ? {
+                    boxShadow: [
+                      '0 0 0 rgba(174,53,255,0.0)',
+                      '0 0 26px rgba(174,53,255,0.35)',
+                      '0 0 0 rgba(174,53,255,0.0)',
+                    ],
+                  }
+                : { boxShadow: '0 0 0 rgba(174,53,255,0.0)' }
+            }
+            transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              marginTop: '2rem',
+              padding: '1rem 2.2rem',
+              borderRadius: '10px',
+              textDecoration: 'none',
+              background: 'var(--accent)',
+              color: '#080808',
+              fontWeight: 700,
+              fontSize: '1.05rem',
+            }}
+          >
+            {primaryCtaLabel}
+          </motion.span>
+        ) : (
+          <motion.a
+            href={SITE.workanaCta}
+            target="_blank"
+            rel="noopener noreferrer"
+            animate={
+              isInView
+                ? {
+                    boxShadow: [
+                      '0 0 0 rgba(174,53,255,0.0)',
+                      '0 0 26px rgba(174,53,255,0.35)',
+                      '0 0 0 rgba(174,53,255,0.0)',
+                    ],
+                  }
+                : { boxShadow: '0 0 0 rgba(174,53,255,0.0)' }
+            }
+            transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              marginTop: '2rem',
+              padding: '1rem 2.2rem',
+              borderRadius: '10px',
+              textDecoration: 'none',
+              background: 'var(--accent)',
+              color: '#080808',
+              fontWeight: 700,
+              fontSize: '1.05rem',
+            }}
+          >
+            {primaryCtaLabel} -&gt;
+          </motion.a>
+        )}
 
-        <p style={{ marginTop: '1.5rem', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
-          Tenes alguna pregunta antes?{' '}
-          <a href={`mailto:${SITE.contactEmail}`} style={{ color: 'var(--accent)' }}>
-            Escribinos aca.
-          </a>
-        </p>
+        {!isWorkana && (
+          <p style={{ marginTop: '1.5rem', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+            Tenes alguna pregunta antes?{' '}
+            <a href={`mailto:${SITE.contactEmail}`} style={{ color: 'var(--accent)' }}>
+              Escribinos aca.
+            </a>
+          </p>
+        )}
 
         <p className="mono" style={{ marginTop: '1.2rem', color: 'var(--text-muted)', fontSize: '0.72rem' }}>
-          Respuesta en menos de 2hs - Sin compromiso
+          {isWorkana ? 'Acepta la propuesta desde Workana para avanzar' : 'Respuesta en menos de 2hs - Sin compromiso'}
         </p>
       </div>
     </section>

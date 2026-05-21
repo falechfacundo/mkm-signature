@@ -15,6 +15,8 @@ const TRUST_BADGES = ['Entrega garantizada', '30 dias de soporte', 'Portal de pr
 
 export default function HeroSection({ params, service }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const isWorkana = params?.platform === 'workana';
+  const primaryCtaLabel = isWorkana ? 'ACEPTAR PROPUESTA' : service.ctaLabel;
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -28,35 +30,6 @@ export default function HeroSection({ params, service }: Props) {
   return (
     <section
       id="hero"
-      ref={containerRef}
-      style={{
-        position: 'relative',
-        overflow: 'hidden',
-        minHeight: '100vh',
-        background: 'var(--bg-primary)',
-      }}
-    >
-      <motion.div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          y: bgY,
-          pointerEvents: 'none',
-        }}
-      >
-        <div
-          className="noise"
-          style={{
-            position: 'absolute',
-            inset: 0,
-          }}
-        />
-        <div
-          style={{
-            position: 'absolute',
-            top: '-120px',
-            right: '-60px',
-            width: '28rem',
             height: '28rem',
             borderRadius: '999px',
             background: 'radial-gradient(circle, rgba(174,53,255,0.14) 0%, rgba(174,53,255,0.03) 42%, transparent 72%)',
@@ -166,46 +139,127 @@ export default function HeroSection({ params, service }: Props) {
             transition={{ duration: 0.45, delay: 0.85, ease: [0.16, 1, 0.3, 1] }}
             style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '0.5rem' }}
           >
-            <a
-              href={SITE.workanaCta}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                padding: '14px 28px',
-                background: 'var(--accent)',
-                color: '#080808',
-                fontFamily: 'var(--font-body)',
-                fontWeight: 600,
-                fontSize: '0.95rem',
-                borderRadius: '10px',
-                textDecoration: 'none',
-              }}
-            >
-              {service.ctaLabel}
-            </a>
-            <a
-              href={SITE.portfolioUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                padding: '14px 24px',
-                border: '1px solid var(--bg-border)',
-                color: 'var(--text-secondary)',
-                fontFamily: 'var(--font-body)',
-                fontSize: '0.95rem',
-                borderRadius: '10px',
-                textDecoration: 'none',
-              }}
-            >
-              Ver portfolio -&gt;
-            </a>
+            {isWorkana ? (
+              <span
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  padding: '14px 28px',
+                  background: 'var(--accent)',
+                  color: '#080808',
+                  fontFamily: 'var(--font-body)',
+                  fontWeight: 600,
+                  fontSize: '0.95rem',
+                  borderRadius: '10px',
+                  textDecoration: 'none',
+                  opacity: 0.92,
+                }}
+              >
+                {primaryCtaLabel}
+              </span>
+            ) : (
+              <a
+                href={SITE.workanaCta}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  padding: '14px 28px',
+                  background: 'var(--accent)',
+                  color: '#080808',
+                  fontFamily: 'var(--font-body)',
+                  fontWeight: 600,
+                  fontSize: '0.95rem',
+                  borderRadius: '10px',
+                  textDecoration: 'none',
+                }}
+              >
+                {primaryCtaLabel}
+              </a>
+            )}
+            {!isWorkana && (
+              <a
+                href={SITE.portfolioUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  padding: '14px 24px',
+                  border: '1px solid var(--bg-border)',
+                  color: 'var(--text-secondary)',
+                  fontFamily: 'var(--font-body)',
+                  fontSize: '0.95rem',
+                  borderRadius: '10px',
+                  textDecoration: 'none',
+                }}
+              >
+                Ver portfolio -&gt;
+              </a>
+            )}
           </motion.div>
         </div>
       </motion.div>
-    </section>
-  );
-}
+        {isWorkana ? (
+          <motion.span
+            animate={
+              isInView
+                ? {
+                    boxShadow: [
+                      '0 0 0 rgba(174,53,255,0.0)',
+                      '0 0 26px rgba(174,53,255,0.35)',
+                      '0 0 0 rgba(174,53,255,0.0)',
+                    ],
+                  }
+                : { boxShadow: '0 0 0 rgba(174,53,255,0.0)' }
+            }
+            transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              marginTop: '2rem',
+              padding: '1rem 2.2rem',
+              borderRadius: '10px',
+              textDecoration: 'none',
+              background: 'var(--accent)',
+              color: '#080808',
+              fontWeight: 700,
+              fontSize: '1.05rem',
+            }}
+          >
+            {primaryCtaLabel}
+          </motion.span>
+        ) : (
+          <motion.a
+            href={SITE.workanaCta}
+            target="_blank"
+            rel="noopener noreferrer"
+            animate={
+              isInView
+                ? {
+                    boxShadow: [
+                      '0 0 0 rgba(174,53,255,0.0)',
+                      '0 0 26px rgba(174,53,255,0.35)',
+                      '0 0 0 rgba(174,53,255,0.0)',
+                    ],
+                  }
+                : { boxShadow: '0 0 0 rgba(174,53,255,0.0)' }
+            }
+            transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              marginTop: '2rem',
+              padding: '1rem 2.2rem',
+              borderRadius: '10px',
+              textDecoration: 'none',
+              background: 'var(--accent)',
+              color: '#080808',
+              fontWeight: 700,
+              fontSize: '1.05rem',
+            }}
+          >
+            {primaryCtaLabel} -&gt;
+          </motion.a>
+        )}

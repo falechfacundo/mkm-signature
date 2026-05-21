@@ -74,58 +74,31 @@ function InteractiveCard({ panelId, kicker, title, description, tone = 'accent',
         background: 'linear-gradient(180deg, rgba(23,23,23,0.96) 0%, rgba(16,16,16,0.96) 100%)',
         boxShadow: '0 14px 26px -22px rgba(0,0,0,0.9)',
         overflow: 'hidden',
+        minHeight: '280px',
       }}
       onMouseEnter={() => setActivePanel(panelId)}
       onMouseLeave={() => setActivePanel(null)}
+      onClick={() => setActivePanel(isOpen ? null : panelId)}
     >
-      <div style={{ padding: '1.15rem 1.15rem 0.95rem' }}>
-        <span className="mono" style={{ fontSize: '0.66rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: accentColor }}>
-          {kicker}
-        </span>
-        <h3 style={{ margin: '0.45rem 0 0', fontFamily: 'var(--font-display)', color: 'var(--text-primary)', fontSize: '1.6rem' }}>{title}</h3>
-        <p style={{ margin: '0.42rem 0 0', color: 'var(--text-secondary)', lineHeight: 1.6, fontSize: '0.9rem' }}>{description}</p>
-
-        <button
-          type="button"
-          onClick={() => setActivePanel(isOpen ? null : panelId)}
-          className="mono"
-          style={{
-            marginTop: '0.75rem',
-            fontSize: '0.62rem',
-            letterSpacing: '0.08em',
-            textTransform: 'uppercase',
-            color: accentColor,
-            border: `1px solid color-mix(in srgb, ${accentColor} 45%, transparent)`,
-            borderRadius: '999px',
-            padding: '0.32rem 0.68rem',
-            background: 'transparent',
-            cursor: 'pointer',
-          }}
-        >
-          {isOpen ? 'Ocultar detalle' : 'Ver detalle'}
-        </button>
-      </div>
-
-      <AnimatePresence initial={false}>
-        {isOpen && (
-          <motion.div
-            key="peek"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-            style={{ overflow: 'hidden', borderTop: '1px solid var(--bg-border)', background: 'var(--bg-surface)' }}
-          >
-            <div style={{ padding: '0.85rem 1.15rem 0.95rem' }}>
-              <p className="mono" style={{ margin: 0, fontSize: '0.62rem', color: 'var(--text-muted)', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+      <div style={{ padding: '1.15rem', height: '100%' }}>
+        <AnimatePresence mode="wait" initial={false}>
+          {isOpen ? (
+            <motion.div
+              key="reveal"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <p className="mono" style={{ margin: 0, fontSize: '0.62rem', color: accentColor, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
                 {content.title}
               </p>
-              <ul style={{ margin: '0.6rem 0 0', padding: 0, listStyle: 'none', display: 'grid', gap: '0.45rem' }}>
+              <ul style={{ margin: '0.7rem 0 0', padding: 0, listStyle: 'none', display: 'grid', gap: '0.52rem' }}>
                 {content.bullets.map((bullet, index) => (
                   <motion.li
                     key={bullet}
-                    initial={{ opacity: 0, y: 6 }}
-                    animate={{ opacity: 1, y: 0 }}
+                    initial={{ opacity: 0, x: -8 }}
+                    animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.04 * index, duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
                     style={{ display: 'flex', gap: '0.5rem', color: 'var(--text-secondary)', fontSize: '0.84rem', lineHeight: 1.5 }}
                   >
@@ -134,10 +107,27 @@ function InteractiveCard({ panelId, kicker, title, description, tone = 'accent',
                   </motion.li>
                 ))}
               </ul>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </motion.div>
+          ) : (
+            <motion.div
+              key="base"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -8 }}
+              transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <span className="mono" style={{ fontSize: '0.66rem', letterSpacing: '0.1em', textTransform: 'uppercase', color: accentColor }}>
+                {kicker}
+              </span>
+              <h3 style={{ margin: '0.45rem 0 0', fontFamily: 'var(--font-display)', color: 'var(--text-primary)', fontSize: '1.6rem' }}>{title}</h3>
+              <p style={{ margin: '0.42rem 0 0', color: 'var(--text-secondary)', lineHeight: 1.6, fontSize: '0.9rem' }}>{description}</p>
+              <p className="mono" style={{ margin: '0.75rem 0 0', fontSize: '0.62rem', color: accentColor, letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                Hover o tap para revelar detalle
+              </p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </article>
   );
 }

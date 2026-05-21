@@ -68,8 +68,7 @@ function DeliverableCard({ title, desc, icon, index, total }: DeliverableCardPro
 
   const isFeatured = index === total - 1;
   const insight = CARD_INSIGHTS[title];
-  const [isExpanded, setIsExpanded] = useState(false);
-  const [comparisonMode, setComparisonMode] = useState<'before' | 'after'>('before');
+  const [isRevealed, setIsRevealed] = useState(false);
   const Icon = ((Icons[icon as keyof typeof Icons] as ElementType) ?? Icons.Box) as ElementType;
   const iconColor = isFeatured ? 'var(--turquesa-500)' : 'var(--accent)';
   const accentSoft = isFeatured ? 'rgba(0, 209, 191, 0.25)' : 'rgba(174, 53, 255, 0.24)';
@@ -97,6 +96,20 @@ function DeliverableCard({ title, desc, icon, index, total }: DeliverableCardPro
   const handleLeave = () => {
     rotateX.set(0);
     rotateY.set(0);
+    setIsRevealed(false);
+  };
+
+  const handleEnter = () => {
+    if (insight) {
+      setIsRevealed(true);
+    }
+  };
+
+  const handleTap = () => {
+    if (!insight) {
+      return;
+    }
+    setIsRevealed((current) => !current);
   };
 
   return (
@@ -108,7 +121,9 @@ function DeliverableCard({ title, desc, icon, index, total }: DeliverableCardPro
       viewport={{ once: true, margin: '-60px' }}
       transition={{ delay: index * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1], type: 'spring', stiffness: 120, damping: 16 }}
       onMouseMove={handleMove}
+      onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
+      onClick={handleTap}
       className="group"
       style={{
         position: 'relative',
@@ -197,141 +212,66 @@ function DeliverableCard({ title, desc, icon, index, total }: DeliverableCardPro
           </div>
         </div>
 
-        <h3
-          style={{
-            margin: '0 0 0.45rem',
-            fontSize: '1.08rem',
-            lineHeight: 1.3,
-            color: 'var(--text-primary)',
-            fontFamily: 'var(--font-display)',
-          }}
-        >
-          {title}
-        </h3>
-        <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.65 }}>{desc}</p>
-
-        {insight && (
-          <>
-            <button
-              type="button"
-              onClick={() => setIsExpanded((current) => !current)}
-              className="mono"
-              style={{
-                marginTop: '0.9rem',
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '0.35rem',
-                fontSize: '0.66rem',
-                letterSpacing: '0.09em',
-                textTransform: 'uppercase',
-                color: 'var(--accent)',
-                border: '1px solid color-mix(in srgb, var(--accent) 45%, transparent)',
-                borderRadius: '999px',
-                padding: '0.3rem 0.65rem',
-                background: 'transparent',
-                cursor: 'pointer',
-              }}
-            >
-              {isExpanded ? 'Ocultar impacto' : 'Ver impacto'}
-              <span aria-hidden="true">{isExpanded ? '-' : '+'}</span>
-            </button>
-
-            <AnimatePresence initial={false}>
-              {isExpanded && (
-                <motion.div
-                  key="insight"
-                  initial={{ opacity: 0, y: 10, height: 0 }}
-                  animate={{ opacity: 1, y: 0, height: 'auto' }}
-                  exit={{ opacity: 0, y: 6, height: 0 }}
-                  transition={{ duration: 0.24, ease: [0.16, 1, 0.3, 1] }}
-                  style={{ overflow: 'hidden' }}
+        <div style={{ marginTop: '0.2rem', minHeight: insight ? '8.8rem' : 'auto' }}>
+          <AnimatePresence mode="wait" initial={false}>
+            {insight && isRevealed ? (
+              <motion.div
+                key="reveal"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <h3
+                  style={{
+                    margin: '0 0 0.45rem',
+                    fontSize: '1.02rem',
+                    lineHeight: 1.3,
+                    color: 'var(--text-primary)',
+                    fontFamily: 'var(--font-display)',
+                  }}
                 >
-                  <div
-                    style={{
-                      marginTop: '0.95rem',
-                      borderRadius: '12px',
-                      border: '1px solid var(--bg-border)',
-                      background: 'var(--bg-surface)',
-                      padding: '0.85rem',
-                    }}
-                  >
-                    <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.82rem', lineHeight: 1.55 }}>
-                      <strong style={{ color: 'var(--text-primary)' }}>Problema:</strong> {insight.problem}
-                    </p>
-                    <p style={{ margin: '0.45rem 0 0', color: 'var(--text-secondary)', fontSize: '0.82rem', lineHeight: 1.55 }}>
-                      <strong style={{ color: 'var(--text-primary)' }}>Resultado:</strong> {insight.outcome}
-                    </p>
-                    <p style={{ margin: '0.45rem 0 0', color: 'var(--text-secondary)', fontSize: '0.82rem', lineHeight: 1.55 }}>
-                      <strong style={{ color: 'var(--text-primary)' }}>Tiempo tipico:</strong> {insight.eta}
-                    </p>
-
-                    <div
-                      className="mono"
-                      style={{
-                        display: 'inline-flex',
-                        marginTop: '0.7rem',
-                        border: '1px solid var(--bg-border)',
-                        borderRadius: '999px',
-                        overflow: 'hidden',
-                      }}
-                    >
-                      <button
-                        type="button"
-                        onClick={() => setComparisonMode('before')}
-                        style={{
-                          fontSize: '0.62rem',
-                          letterSpacing: '0.08em',
-                          textTransform: 'uppercase',
-                          padding: '0.3rem 0.6rem',
-                          border: 0,
-                          cursor: 'pointer',
-                          background: comparisonMode === 'before' ? 'var(--accent)' : 'transparent',
-                          color: comparisonMode === 'before' ? '#0b0b0b' : 'var(--text-secondary)',
-                        }}
-                      >
-                        Antes
-                      </button>
-                      <button
-                        type="button"
-                        onClick={() => setComparisonMode('after')}
-                        style={{
-                          fontSize: '0.62rem',
-                          letterSpacing: '0.08em',
-                          textTransform: 'uppercase',
-                          padding: '0.3rem 0.6rem',
-                          border: 0,
-                          cursor: 'pointer',
-                          background: comparisonMode === 'after' ? 'var(--turquesa-500)' : 'transparent',
-                          color: comparisonMode === 'after' ? '#071414' : 'var(--text-secondary)',
-                        }}
-                      >
-                        Despues
-                      </button>
-                    </div>
-
-                    <AnimatePresence mode="wait" initial={false}>
-                      <motion.p
-                        key={comparisonMode}
-                        initial={{ opacity: 0, x: comparisonMode === 'before' ? -8 : 8 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: comparisonMode === 'before' ? 8 : -8 }}
-                        transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                        style={{
-                          margin: '0.65rem 0 0',
-                          color: 'var(--text-primary)',
-                          fontSize: '0.82rem',
-                          lineHeight: 1.55,
-                        }}
-                      >
-                        {comparisonMode === 'before' ? insight.before : insight.after}
-                      </motion.p>
-                    </AnimatePresence>
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </>
-        )}
+                  Impacto del entregable
+                </h3>
+                <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.82rem', lineHeight: 1.55 }}>
+                  <strong style={{ color: 'var(--text-primary)' }}>Problema:</strong> {insight.problem}
+                </p>
+                <p style={{ margin: '0.42rem 0 0', color: 'var(--text-secondary)', fontSize: '0.82rem', lineHeight: 1.55 }}>
+                  <strong style={{ color: 'var(--text-primary)' }}>Resultado:</strong> {insight.outcome}
+                </p>
+                <p style={{ margin: '0.42rem 0 0', color: 'var(--text-secondary)', fontSize: '0.82rem', lineHeight: 1.55 }}>
+                  <strong style={{ color: 'var(--text-primary)' }}>Tiempo:</strong> {insight.eta}
+                </p>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="base"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <h3
+                  style={{
+                    margin: '0 0 0.45rem',
+                    fontSize: '1.08rem',
+                    lineHeight: 1.3,
+                    color: 'var(--text-primary)',
+                    fontFamily: 'var(--font-display)',
+                  }}
+                >
+                  {title}
+                </h3>
+                <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: 1.65 }}>{desc}</p>
+                {insight && (
+                  <p className="mono" style={{ margin: '0.68rem 0 0', color: 'var(--accent)', fontSize: '0.62rem', letterSpacing: '0.08em', textTransform: 'uppercase' }}>
+                    Hover o tap para ver impacto
+                  </p>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
       </div>
     </motion.article>
   );

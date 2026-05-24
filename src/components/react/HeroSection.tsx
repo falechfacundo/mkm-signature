@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { motion, useInView, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 import { SITE } from '@config/site';
 import type { HubParams } from '@lib/params';
@@ -14,11 +14,11 @@ interface Props {
 const TRUST_BADGES = [
   'Entrega garantizada',
   '30 dias de soporte',
-  // 'Portal de proyecto incluido',
 ];
 
 export default function HeroSection({ params, service }: Props) {
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLElement | null>(null);
+  const isInView = useInView(containerRef, { once: false, margin: '-80px' });
   const isWorkana = params?.platform === 'workana';
   const primaryCtaLabel = isWorkana ? 'ACEPTAR PROPUESTA' : service.ctaLabel;
 
@@ -32,8 +32,22 @@ export default function HeroSection({ params, service }: Props) {
   const words = service.headline.split(' ');
 
   return (
-    <section
-      id="hero"
+    <section id="hero" ref={containerRef} style={{ position: 'relative', minHeight: '100vh', overflow: 'hidden', background: 'var(--gradient-hero)' }}>
+      <motion.div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          inset: 0,
+          y: bgY,
+          pointerEvents: 'none',
+        }}
+      >
+        <div
+          style={{
+            position: 'absolute',
+            left: '-10%',
+            top: '-18%',
+            width: '28rem',
             height: '28rem',
             borderRadius: '999px',
             background: 'radial-gradient(circle, rgba(174,53,255,0.14) 0%, rgba(174,53,255,0.03) 42%, transparent 72%)',
@@ -101,7 +115,7 @@ export default function HeroSection({ params, service }: Props) {
                   backgroundClip: 'text',
                 }}
               >
-                para {params.client}.
+                {' '}para {params.client}.
               </motion.span>
             )}
           </h1>
@@ -144,7 +158,19 @@ export default function HeroSection({ params, service }: Props) {
             style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '0.5rem' }}
           >
             {isWorkana ? (
-              <span
+              <motion.span
+                animate={
+                  isInView
+                    ? {
+                        boxShadow: [
+                          '0 0 0 rgba(174,53,255,0.0)',
+                          '0 0 26px rgba(174,53,255,0.35)',
+                          '0 0 0 rgba(174,53,255,0.0)',
+                        ],
+                      }
+                    : { boxShadow: '0 0 0 rgba(174,53,255,0.0)' }
+                }
+                transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -160,12 +186,24 @@ export default function HeroSection({ params, service }: Props) {
                 }}
               >
                 {primaryCtaLabel}
-              </span>
+              </motion.span>
             ) : (
-              <a
+              <motion.a
                 href={SITE.workanaCta}
                 target="_blank"
                 rel="noopener noreferrer"
+                animate={
+                  isInView
+                    ? {
+                        boxShadow: [
+                          '0 0 0 rgba(174,53,255,0.0)',
+                          '0 0 26px rgba(174,53,255,0.35)',
+                          '0 0 0 rgba(174,53,255,0.0)',
+                        ],
+                      }
+                    : { boxShadow: '0 0 0 rgba(174,53,255,0.0)' }
+                }
+                transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
                 style={{
                   display: 'inline-flex',
                   alignItems: 'center',
@@ -180,8 +218,9 @@ export default function HeroSection({ params, service }: Props) {
                 }}
               >
                 {primaryCtaLabel}
-              </a>
+              </motion.a>
             )}
+
             {!isWorkana && (
               <a
                 href={SITE.portfolioUrl}
@@ -205,65 +244,6 @@ export default function HeroSection({ params, service }: Props) {
           </motion.div>
         </div>
       </motion.div>
-        {isWorkana ? (
-          <motion.span
-            animate={
-              isInView
-                ? {
-                    boxShadow: [
-                      '0 0 0 rgba(174,53,255,0.0)',
-                      '0 0 26px rgba(174,53,255,0.35)',
-                      '0 0 0 rgba(174,53,255,0.0)',
-                    ],
-                  }
-                : { boxShadow: '0 0 0 rgba(174,53,255,0.0)' }
-            }
-            transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              marginTop: '2rem',
-              padding: '1rem 2.2rem',
-              borderRadius: '10px',
-              textDecoration: 'none',
-              background: 'var(--accent)',
-              color: '#080808',
-              fontWeight: 700,
-              fontSize: '1.05rem',
-            }}
-          >
-            {primaryCtaLabel}
-          </motion.span>
-        ) : (
-          <motion.a
-            href={SITE.workanaCta}
-            target="_blank"
-            rel="noopener noreferrer"
-            animate={
-              isInView
-                ? {
-                    boxShadow: [
-                      '0 0 0 rgba(174,53,255,0.0)',
-                      '0 0 26px rgba(174,53,255,0.35)',
-                      '0 0 0 rgba(174,53,255,0.0)',
-                    ],
-                  }
-                : { boxShadow: '0 0 0 rgba(174,53,255,0.0)' }
-            }
-            transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              marginTop: '2rem',
-              padding: '1rem 2.2rem',
-              borderRadius: '10px',
-              textDecoration: 'none',
-              background: 'var(--accent)',
-              color: '#080808',
-              fontWeight: 700,
-              fontSize: '1.05rem',
-            }}
-          >
-            {primaryCtaLabel} -&gt;
-          </motion.a>
-        )}
+    </section>
+  );
+}

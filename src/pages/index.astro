@@ -2,11 +2,13 @@
 export const prerender = false;
 
 import BaseLayout from '@/layouts/BaseLayout.astro';
+import Navbar from '@components/react/Navbar';
+import Footer from '@components/react/Footer';
 import Hero from '@blocks/Hero.astro';
 import Process from '@blocks/Process.astro';
 import Deliverables from '@blocks/Deliverables.astro';
-// import PortalPreview from '@blocks/PortalPreview.astro';
 import Communication from '@blocks/Communication.astro';
+import Booking from '@blocks/Booking.astro';
 import FAQ from '@blocks/FAQ.astro';
 import CTAFinal from '@blocks/CTAFinal.astro';
 
@@ -18,13 +20,60 @@ const service = SERVICES[params.service];
 ---
 
 <BaseLayout params={params} service={service}>
+	<Navbar client:load />
 	<Hero params={params} service={service} />
+
+	<div class="section-divider">
+		<img src="/logo-cara.svg" alt="" width="20" height="11" />
+	</div>
+
 	<Process />
+
+	<div class="section-divider">
+		<img src="/logo-cara.svg" alt="" width="20" height="11" />
+	</div>
+
 	<Deliverables service={service} />
-	{/* PortalPreview commented out until the portal is operational. */}
-	{/* <PortalPreview /> */}
+
+	<div class="section-divider">
+		<img src="/logo-cara.svg" alt="" width="20" height="11" />
+	</div>
+
 	<Communication />
+
+	<div class="section-divider">
+		<img src="/logo-cara.svg" alt="" width="20" height="11" />
+	</div>
+
+	<Booking />
+
+	<div class="section-divider">
+		<img src="/logo-cara.svg" alt="" width="20" height="11" />
+	</div>
+
 	<FAQ service={service} />
+
+	<div class="section-divider">
+		<img src="/logo-cara.svg" alt="" width="20" height="11" />
+	</div>
+
 	<CTAFinal params={params} service={service} />
+
+	<Footer client:visible />
 </BaseLayout>
 
+<style>
+	.section-divider {
+		display: flex;
+		justify-content: center;
+		padding: 1.5rem 0;
+		opacity: 0.25;
+		pointer-events: none;
+	}
+
+	.section-divider img {
+		display: block;
+		filter: brightness(0) invert(1);
+		opacity: 0.5;
+	}
+</style>

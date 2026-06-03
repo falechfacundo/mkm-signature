@@ -48,9 +48,9 @@ export default function Navbar() {
           }}
         >
           <img
-            src="/logo-cara.svg"
+            src="/logo-cara-blanco.svg"
             alt="MKM Signature"
-            style={{ width: 28, height: 28, display: 'block', filter: 'brightness(0) invert(1)' }}
+            style={{ width: 24, height: 'auto', display: 'block' }}
           />
           <span style={{ fontWeight: 700, fontSize: '0.95rem', letterSpacing: '0.04em' }}>
             MKM Signature

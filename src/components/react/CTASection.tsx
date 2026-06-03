@@ -40,7 +40,7 @@ export default function CTASection({ params, service }: Props) {
 
       <div style={{ maxWidth: '48rem', margin: '0 auto', padding: '0 1.5rem', textAlign: 'center', position: 'relative' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem', marginBottom: '0.5rem' }}>
-          <img src="/logo-cara.svg" alt="" style={{ display: 'block', width: 24, height: 'auto', filter: 'brightness(0) invert(1)' }} />
+          <img src="/logo-cara-blanco.svg" alt="" style={{ display: 'block', width: 22, height: 'auto' }} />
           <span style={{ color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.12em', fontSize: '0.72rem' }}>
             {SITE.name}
           </span>

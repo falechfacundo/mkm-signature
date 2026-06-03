@@ -20,30 +20,14 @@ export default function Navbar() {
   return (
     <motion.nav
       ref={navRef}
-      style={{ opacity: visible }}
+      style={{ opacity: visible, position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, padding: '0 1.5rem' }}
       className="no-print"
-      onPointerDown={(e) => { const t = e.target as HTMLElement; if (t.tagName === 'A' || t.closest('a')) return; }}
-      css={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 100,
-        padding: '0 1.5rem',
-        pointerEvents: visible.get() === 1 ? 'auto' as const : 'none' as const,
-      }}
     >
       <motion.div
-        style={{ opacity: bgOpacity }}
-        css={{
-          position: 'absolute',
-          inset: 0,
-          background: 'var(--bg-primary)',
-          borderBottom: '1px solid var(--bg-border)',
-        }}
+        style={{ opacity: bgOpacity, position: 'absolute', inset: 0, background: 'var(--bg-primary)', borderBottom: '1px solid var(--bg-border)' }}
       />
       <div
-        css={{
+        style={{
           position: 'relative',
           maxWidth: '72rem',
           margin: '0 auto',
@@ -55,7 +39,7 @@ export default function Navbar() {
       >
         <a
           href="/"
-          css={{
+          style={{
             display: 'flex',
             alignItems: 'center',
             gap: '10px',
@@ -66,34 +50,34 @@ export default function Navbar() {
           <img
             src="/logo-cara.svg"
             alt="MKM Signature"
-            css={{ width: 28, height: 'auto', display: 'block', filter: 'brightness(0) invert(1)' }}
+            style={{ width: 28, height: 28, display: 'block', filter: 'brightness(0) invert(1)' }}
           />
-          <span css={{ fontWeight: 700, fontSize: '0.95rem', letterSpacing: '0.04em' }}>
-            {SITE.name}
+          <span style={{ fontWeight: 700, fontSize: '0.95rem', letterSpacing: '0.04em' }}>
+            MKM Signature
           </span>
         </a>
 
-        <div css={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
           {LINKS.map((link) => (
             <a
               key={link.href}
               href={link.href}
-              css={{
+              style={{
                 color: 'var(--text-secondary)',
                 textDecoration: 'none',
                 fontSize: '0.82rem',
                 fontWeight: 500,
                 letterSpacing: '0.04em',
-                transition: 'color 0.2s',
-                '&:hover': { color: 'var(--accent)' },
               }}
+              onMouseOver={(e) => e.currentTarget.style.color = 'var(--accent)'}
+              onMouseOut={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
             >
               {link.label}
             </a>
           ))}
           <a
             href="#reservar"
-            css={{
+            style={{
               display: 'inline-flex',
               alignItems: 'center',
               padding: '7px 18px',
@@ -104,10 +88,14 @@ export default function Navbar() {
               fontSize: '0.82rem',
               textDecoration: 'none',
               transition: 'box-shadow 0.2s, transform 0.2s',
-              '&:hover': {
-                boxShadow: '0 0 20px rgba(212,167,44,0.3)',
-                transform: 'scale(1.03)',
-              },
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.boxShadow = '0 0 20px rgba(212,167,44,0.3)';
+              e.currentTarget.style.transform = 'scale(1.03)';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.boxShadow = 'none';
+              e.currentTarget.style.transform = 'scale(1)';
             }}
           >
             Reservar

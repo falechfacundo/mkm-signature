@@ -14,16 +14,28 @@
   "dependencies": {
     "@astrojs/react": "^5.0.5",
     "@astrojs/vercel": "^10.0.7",
+    "@studio-freight/lenis": "^1.0.42",
     "@tailwindcss/vite": "^4.3.0",
     "@types/react": "^19.2.15",
     "@types/react-dom": "^19.2.3",
     "astro": "^6.3.6",
     "clsx": "^2.1.1",
-    "framer-motion": "^12.39.0",
+    "d3-geo": "^3.1.1",
+    "framer-motion": "^12.40.0",
+    "gsap": "^3.15.0",
     "lucide-react": "^1.16.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6",
     "tailwind-merge": "^3.6.0",
-    "tailwindcss": "^4.3.0"
+    "tailwindcss": "^4.3.0",
+    "vanilla-tilt": "^1.8.1",
+    "vite": "^7.3.3"
+  },
+  "overrides": {
+    "vite": "^7"
+  },
+  "devDependencies": {
+    "@types/d3-geo": "^3.1.0",
+    "@types/vanilla-tilt": "^1.4.1"
   }
 }

@@ -25,20 +25,28 @@ export default function FAQAccordion({ items }: Props) {
         return (
           <motion.article
             key={index}
-            initial={{ opacity: 0, y: 14 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ delay: index * 0.05, duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-            className="rounded-2xl overflow-hidden transition-transform duration-300 ease-out hover:-translate-y-0.5"
+            initial={{ opacity: 0, y: 30, scale: 0.97 }}
+            whileInView={{ opacity: 1, y: 0, scale: 1 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{
+              delay: index * 0.06,
+              duration: 0.45,
+              ease: [0.17, 0.67, 0.29, 1],
+              type: 'spring',
+              stiffness: 100,
+              damping: 18,
+            }}
             style={{
+              borderRadius: '16px',
+              overflow: 'hidden',
               background: isOpen
-                ? 'linear-gradient(180deg, color-mix(in srgb, var(--accent) 8%, #1a1a1a) 0%, #141414 100%)'
-                : 'linear-gradient(180deg, #1a1a1a 0%, #141414 100%)',
-              border: `1px solid ${isOpen ? 'color-mix(in srgb, var(--accent) 45%, transparent)' : 'var(--bg-border)'}`,
+                ? 'linear-gradient(180deg, color-mix(in srgb, var(--accent) 8%, rgba(20,30,54,1)) 0%, rgba(14,22,40,1) 100%)'
+                : 'linear-gradient(180deg, rgba(20,20,20,1) 0%, rgba(14,14,14,1) 100%)',
+              border: `1px solid ${isOpen ? 'color-mix(in srgb, var(--accent) 40%, transparent)' : 'var(--bg-border)'}`,
               boxShadow: isOpen
-                ? '0 22px 34px -24px color-mix(in srgb, var(--accent) 45%, transparent)'
+                ? '0 20px 40px -24px rgba(212,167,44,0.25)'
                 : '0 12px 24px -20px rgba(0,0,0,0.9)',
-              transition: 'background 0.24s ease, border-color 0.24s ease, box-shadow 0.24s ease',
+              transition: 'background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease',
             }}
           >
             <button
@@ -51,7 +59,7 @@ export default function FAQAccordion({ items }: Props) {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'space-between',
-                padding: '20px 22px',
+                padding: '18px 22px',
                 background: 'none',
                 border: 'none',
                 cursor: 'pointer',
@@ -77,7 +85,7 @@ export default function FAQAccordion({ items }: Props) {
                   style={{
                     fontFamily: 'var(--font-display)',
                     fontSize: '1rem',
-                    color: isOpen ? 'var(--text-primary)' : 'var(--text-primary)',
+                    color: 'var(--text-primary)',
                     lineHeight: 1.45,
                     letterSpacing: '0.01em',
                   }}
@@ -100,8 +108,8 @@ export default function FAQAccordion({ items }: Props) {
                     ? 'color-mix(in srgb, var(--accent) 12%, transparent)'
                     : 'color-mix(in srgb, var(--text-muted) 8%, transparent)',
                 }}
-                animate={{ rotate: isOpen ? 180 : 0 }}
-                transition={{ duration: 0.25, ease: 'easeOut' }}
+                animate={{ rotate: isOpen ? 180 : 0, scale: isOpen ? 1.1 : 1 }}
+                transition={{ duration: 0.3, ease: [0.17, 0.67, 0.29, 1] }}
               >
                 {isOpen ? <Minus size={18} /> : <Plus size={18} />}
               </motion.span>
@@ -114,11 +122,11 @@ export default function FAQAccordion({ items }: Props) {
                   id={`${id}-panel`}
                   role="region"
                   aria-labelledby={`${id}-trigger`}
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: 'auto', opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                  style={{ overflow: 'hidden' }}
+                  initial={{ height: 0, opacity: 0, scaleY: 0.95 }}
+                  animate={{ height: 'auto', opacity: 1, scaleY: 1 }}
+                  exit={{ height: 0, opacity: 0, scaleY: 0.95 }}
+                  transition={{ duration: 0.35, ease: [0.17, 0.67, 0.29, 1] }}
+                  style={{ overflow: 'hidden', transformOrigin: 'top' }}
                 >
                   <div
                     style={{

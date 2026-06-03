@@ -1,0 +1,377 @@
+---
+import { SITE } from '@config/site';
+---
+
+<section class="slide">
+  <span class="slide-number">06 / Applications</span>
+  <div class="apps-grid">
+    <div class="app-item instagram">
+      <div class="mockup-avatar">
+        <div class="avatar-ring">
+          <div class="avatar-inner">
+            <img src="/logo-cara.png" alt="MKM Signature" class="avatar-logo" width="120" height="120" />
+          </div>
+        </div>
+      </div>
+      <span class="app-label">Instagram Avatar</span>
+    </div>
+
+    <div class="app-item phone">
+      <div class="mockup-phone">
+        <div class="phone-notch"></div>
+        <div class="phone-screen">
+          <div class="screen-header">
+            <span class="screen-time">9:41</span>
+            <div class="screen-icons">
+              <span class="dot"></span>
+              <span class="dot"></span>
+            </div>
+          </div>
+          <div class="screen-body">
+            <div class="screen-logo-small">
+              <img src="/logo-cara.png" alt="" width="40" height="40" class="screen-logo-img" />
+            </div>
+            <span class="screen-brand">MKM</span>
+            <span class="screen-tag">Barbería a domicilio</span>
+            <div class="screen-btn"></div>
+          </div>
+        </div>
+      </div>
+      <span class="app-label">Mobile View</span>
+    </div>
+
+    <div class="app-item card">
+      <div class="mockup-card">
+        <div class="card-top">
+          <img src="/logo-cara-negativo.png" alt="" width="32" height="32" class="card-logo" />
+          <span class="card-brand">{SITE.name}</span>
+        </div>
+        <div class="card-divider"></div>
+        <div class="card-body">
+          <span class="card-name">Jorge Martínez</span>
+          <span class="card-role">Barbero Profesional</span>
+        </div>
+        <div class="card-footer">
+          <span class="card-tagline">{SITE.tagline}</span>
+          <span class="card-instagram">@mkm_signature</span>
+        </div>
+      </div>
+      <span class="app-label">Business Card</span>
+    </div>
+
+    <div class="app-item merch">
+      <div class="mockup-cap">
+        <div class="cap-crown">
+          <div class="cap-panel">
+            <span class="cap-brand">MKM</span>
+          </div>
+          <div class="cap-brim"></div>
+        </div>
+      </div>
+      <span class="app-label">Merchandise</span>
+    </div>
+  </div>
+</section>
+
+<style>
+  .apps-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px 80px;
+    max-width: 1100px;
+  }
+
+  .app-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .app-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  /* -- Instagram Avatar -- */
+  .mockup-avatar {
+    width: 180px;
+    height: 180px;
+  }
+
+  .avatar-ring {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    padding: 6px;
+    background: linear-gradient(135deg, var(--gold-500), var(--gold-300));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .avatar-inner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: var(--bg-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .avatar-logo {
+    width: 60%;
+    height: auto;
+    object-fit: contain;
+    display: block;
+  }
+
+  /* -- Phone -- */
+  .mockup-phone {
+    width: 180px;
+    height: 360px;
+    background: #1a1a1a;
+    border-radius: 28px;
+    padding: 12px;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  .phone-notch {
+    width: 60px;
+    height: 6px;
+    background: #111;
+    border-radius: 3px;
+    margin: 0 auto 8px;
+  }
+
+  .phone-screen {
+    width: 100%;
+    height: calc(100% - 14px);
+    background: var(--bg-primary);
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .screen-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 14px;
+  }
+
+  .screen-time {
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--text-secondary);
+  }
+
+  .screen-icons {
+    display: flex;
+    gap: 4px;
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    background: var(--text-muted);
+    border-radius: 50%;
+  }
+
+  .screen-body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px;
+  }
+
+  .screen-logo-small {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .screen-logo-img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .screen-brand {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: 0.04em;
+    color: var(--text-primary);
+  }
+
+  .screen-tag {
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .screen-btn {
+    width: 60%;
+    height: 28px;
+    background: var(--gold-500);
+    border-radius: 14px;
+    margin-top: 8px;
+  }
+
+  /* -- Business Card -- */
+  .mockup-card {
+    width: 280px;
+    height: 160px;
+    background: var(--bg-secondary);
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  }
+
+  .card-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .card-logo {
+    width: 28px;
+    height: auto;
+    display: block;
+  }
+
+  .card-brand {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    color: var(--text-primary);
+  }
+
+  .card-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--bg-border);
+    margin: 12px 0;
+  }
+
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .card-name {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--text-primary);
+  }
+
+  .card-role {
+    font-size: 11px;
+    color: var(--text-secondary);
+  }
+
+  .card-footer {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .card-tagline {
+    font-size: 9px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--gold-500);
+  }
+
+  .card-instagram {
+    font-size: 9px;
+    color: var(--text-muted);
+  }
+
+  /* -- Cap -- */
+  .mockup-cap {
+    width: 200px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cap-crown {
+    width: 180px;
+    height: 130px;
+    background: var(--bg-primary);
+    border-radius: 90px 90px 0 0;
+    border: 2px solid var(--bg-border);
+    border-bottom: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+  }
+
+  .cap-panel {
+    width: 90px;
+    height: 90px;
+    background: var(--bg-secondary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cap-brand {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: 18px;
+    letter-spacing: 0.08em;
+    color: var(--gold-500);
+  }
+
+  .cap-brim {
+    width: 200px;
+    height: 18px;
+    background: var(--bg-secondary);
+    border-radius: 0 0 4px 4px;
+    margin-top: -2px;
+  }
+
+  @media print {
+    .app-label {
+      color: #666 !important;
+    }
+    .mockup-phone {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15) !important;
+    }
+    .mockup-card {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1) !important;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .apps-grid {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+  }
+</style>

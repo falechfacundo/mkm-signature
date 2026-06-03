@@ -1,0 +1,190 @@
+---
+const gold = [
+  { name: 'Gold 50',  var: '--gold-50',  hex: '#FDF8E8' },
+  { name: 'Gold 100', var: '--gold-100', hex: '#FAF0C8' },
+  { name: 'Gold 200', var: '--gold-200', hex: '#F5E39E' },
+  { name: 'Gold 300', var: '--gold-300', hex: '#EED06A' },
+  { name: 'Gold 400', var: '--gold-400', hex: '#E8BD42' },
+  { name: 'Gold 500', var: '--gold-500', hex: '#D4A72C' },
+  { name: 'Gold 600', var: '--gold-600', hex: '#C09220' },
+  { name: 'Gold 700', var: '--gold-700', hex: '#9C7419' },
+  { name: 'Gold 800', var: '--gold-800', hex: '#7D5E1B' },
+  { name: 'Gold 900', var: '--gold-900', hex: '#6A4D1A' },
+];
+
+const navy = [
+  { name: 'Navy 50',  var: '--navy-50',  hex: '#EFF4FF' },
+  { name: 'Navy 100', var: '--navy-100', hex: '#DAE6FF' },
+  { name: 'Navy 200', var: '--navy-200', hex: '#BDD3FF' },
+  { name: 'Navy 300', var: '--navy-300', hex: '#90B5FF' },
+  { name: 'Navy 400', var: '--navy-400', hex: '#5C8CFF' },
+  { name: 'Navy 500', var: '--navy-500', hex: '#3366FF' },
+  { name: 'Navy 600', var: '--navy-600', hex: '#1A44E0' },
+  { name: 'Navy 700', var: '--navy-700', hex: '#1534B5' },
+  { name: 'Navy 800', var: '--navy-800', hex: '#172D93' },
+  { name: 'Navy 900', var: '--navy-900', hex: '#192A75' },
+];
+---
+
+<section class="slide">
+  <span class="slide-number">04 / Color System</span>
+  <div class="color-content">
+    <div class="palette-group">
+      <h2 class="palette-title">Gold</h2>
+      <p class="palette-subtitle">Primary accent</p>
+      <div class="swatch-strip">
+        {gold.map((c) => (
+          <div class="swatch-item">
+            <div class="swatch" style={`background:${c.hex}`}></div>
+            <span class="swatch-label">{c.name}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="palette-group">
+      <h2 class="palette-title">Navy</h2>
+      <p class="palette-subtitle">Secondary accent</p>
+      <div class="swatch-strip">
+        {navy.map((c) => (
+          <div class="swatch-item">
+            <div class="swatch" style={`background:${c.hex}`}></div>
+            <span class="swatch-label">{c.name}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <div class="palette-group">
+      <h2 class="palette-title">Surfaces</h2>
+      <div class="surface-row">
+        <div class="surface-item" style="background:var(--bg-primary)">
+          <span class="surface-name">Primary</span>
+          <span class="surface-hex">#080c14</span>
+        </div>
+        <div class="surface-item" style="background:var(--bg-secondary)">
+          <span class="surface-name">Secondary</span>
+          <span class="surface-hex">#0e1628</span>
+        </div>
+        <div class="surface-item" style="background:var(--bg-surface)">
+          <span class="surface-name">Surface</span>
+          <span class="surface-hex">#141e36</span>
+        </div>
+        <div class="surface-item" style="background:var(--text-primary);color:#080c14">
+          <span class="surface-name">Text</span>
+          <span class="surface-hex">#f0efe8</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .color-content {
+    max-width: 1200px;
+  }
+
+  .palette-group {
+    margin-bottom: 60px;
+  }
+
+  .palette-group:last-child {
+    margin-bottom: 0;
+  }
+
+  .palette-title {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+  }
+
+  .palette-subtitle {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+  }
+
+  .swatch-strip {
+    display: flex;
+    gap: 2px;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .swatch-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .swatch {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    border-radius: 2px;
+  }
+
+  .swatch-label {
+    font-size: 10px;
+    font-weight: 500;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+  }
+
+  .surface-row {
+    display: flex;
+    gap: 2px;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .surface-item {
+    flex: 1;
+    aspect-ratio: 3 / 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    border-radius: 2px;
+  }
+
+  .surface-name {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  .surface-hex {
+    font-size: 10px;
+    opacity: 0.7;
+  }
+
+  @media print {
+    .palette-title, .swatch-label, .surface-name, .surface-hex {
+      color: #555 !important;
+    }
+    .palette-subtitle {
+      color: #777 !important;
+    }
+    .surface-item[style*="text-primary"] {
+      color: #080c14 !important;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .swatch-strip, .surface-row {
+      flex-wrap: wrap;
+    }
+    .swatch-item {
+      flex: 0 0 calc(20% - 2px);
+    }
+    .surface-item {
+      flex: 0 0 calc(50% - 2px);
+    }
+  }
+</style>

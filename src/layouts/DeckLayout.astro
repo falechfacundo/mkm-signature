@@ -1,0 +1,137 @@
+---
+import '../styles/global.css';
+import { SITE } from '@config/site';
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={`${SITE.name} — Brand Deck`} />
+
+    <meta property="og:title" content={`${SITE.name} — Brand Deck`} />
+    <meta property="og:description" content="Brand presentation and design system" />
+    <meta property="og:url" content={`${SITE.url}/brand-deck`} />
+    <meta property="og:type" content="website" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>{SITE.name} — Brand Deck</title>
+
+    <style is:global>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      html {
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        font-family: var(--font-body);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      body {
+        background: var(--bg-primary);
+        color: var(--text-primary);
+        font-family: var(--font-body);
+      }
+
+      .slide {
+        position: relative;
+        padding: 80px 60px;
+        max-width: 1400px;
+        margin: 0 auto;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .slide-full {
+        max-width: none;
+        padding: 80px 60px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+
+      .slide-label {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: var(--gold-500);
+        margin-bottom: 24px;
+      }
+
+      .slide-number {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.2em;
+        color: var(--text-muted);
+        margin-bottom: 80px;
+      }
+
+      @media print {
+        @page {
+          size: A4;
+          margin: 15mm 18mm;
+        }
+
+        html, body {
+          background: #fff !important;
+          color: #111 !important;
+          -webkit-print-color-adjust: exact;
+          print-color-adjust: exact;
+        }
+
+        .slide, .slide-full {
+          min-height: 0 !important;
+          padding: 40px 0 !important;
+          height: auto !important;
+          page-break-after: always;
+          page-break-inside: avoid;
+        }
+
+        .slide:last-child, .slide-full:last-child {
+          page-break-after: auto;
+        }
+
+        .no-print {
+          display: none !important;
+        }
+
+        .print-only {
+          display: block !important;
+        }
+
+        .slide-number {
+          color: #999 !important;
+        }
+
+        .slide-label {
+          color: #b8962a !important;
+        }
+      }
+
+      @media screen and (max-width: 768px) {
+        .slide, .slide-full {
+          padding: 60px 24px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

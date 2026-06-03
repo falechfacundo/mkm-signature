@@ -1,4 +1,4 @@
-export type ServiceId = 'landing' | 'ecommerce' | 'bot';
+export type ServiceId = 'corte' | 'corte_barba' | 'barba';
 
 export interface ServiceConfig {
   id: ServiceId;
@@ -7,33 +7,37 @@ export interface ServiceConfig {
   subheadline: string;
   faqKey: ServiceId;
   ctaLabel: string;
+  price: string;
 }
 
 export const SERVICES: Record<ServiceId, ServiceConfig> = {
-  landing: {
-    id: 'landing',
-    label: 'Landing Page',
-    headline: 'Tu presencia online que convierte.',
-    subheadline: 'Diseno, velocidad y estructura pensados para transformar visitas en clientes desde el primer dia.',
-    faqKey: 'landing',
-    ctaLabel: 'Aceptar propuesta en Workana',
+  corte: {
+    id: 'corte',
+    label: 'Corte Premium',
+    headline: 'Estilo que habla por vos.',
+    subheadline: 'Corte personalizado según tu tipo de cabello, rostro y rutina. Sin salir de casa.',
+    faqKey: 'corte',
+    ctaLabel: 'Reservar corte',
+    price: '$15000',
   },
-  ecommerce: {
-    id: 'ecommerce',
-    label: 'eCommerce',
-    headline: 'Tu tienda lista para vender desde el dia uno.',
-    subheadline: 'Setup completo, integrado y testeado. Sin excusas para no empezar a vender.',
-    faqKey: 'ecommerce',
-    ctaLabel: 'Aceptar propuesta en Workana',
+  corte_barba: {
+    id: 'corte_barba',
+    label: 'Corte + Barba',
+    headline: 'Look completo, un solo paso.',
+    subheadline: 'Corte + barba perfilada en la comodidad de tu domicilio. Resultado de barbería, sin la fila.',
+    faqKey: 'corte_barba',
+    ctaLabel: 'Reservar combo',
+    price: '$18000',
   },
-  bot: {
-    id: 'bot',
-    label: 'Bot & Automatizacion',
-    headline: 'Automatiza tu negocio con IA real.',
-    subheadline: 'Un sistema que trabaja mientras vos no. Sin hype, con resultados medibles.',
-    faqKey: 'bot',
-    ctaLabel: 'Aceptar propuesta en Workana',
+  barba: {
+    id: 'barba',
+    label: 'Barba Profesional',
+    headline: 'Barba con carácter.',
+    subheadline: 'Perfilado de barba con línea definida, simetría y productos premium.',
+    faqKey: 'barba',
+    ctaLabel: 'Reservar barba',
+    price: '$10000',
   },
 } as const;
 
-export const DEFAULT_SERVICE: ServiceId = 'landing';
+export const DEFAULT_SERVICE: ServiceId = 'corte';

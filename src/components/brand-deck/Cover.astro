@@ -1,0 +1,118 @@
+---
+import { SITE } from '@config/site';
+---
+
+<section class="slide-full cover">
+  <div class="cover-inner">
+    <div class="logo-wrap">
+      <img src="/logo-corona.png" alt="MKM Signature" class="logo" width="280" height="280" />
+    </div>
+    <h1 class="brand-name">{SITE.name}</h1>
+    <p class="tagline">{SITE.tagline}</p>
+    <div class="accent-line"></div>
+  </div>
+  <div class="cover-footer">
+    <span>Brand Deck</span>
+    <span>{new Date().getFullYear()}</span>
+  </div>
+</section>
+
+<style>
+  .cover {
+    background: var(--bg-primary);
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .cover-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .logo-wrap {
+    margin-bottom: 8px;
+  }
+
+  .logo {
+    display: block;
+    width: 200px;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .brand-name {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(48px, 6vw, 80px);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    line-height: 1.1;
+  }
+
+  .tagline {
+    font-family: var(--font-body);
+    font-weight: 300;
+    font-size: clamp(18px, 2vw, 24px);
+    color: var(--text-secondary);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .accent-line {
+    width: 60px;
+    height: 2px;
+    background: var(--gold-500);
+    margin-top: 8px;
+  }
+
+  .cover-footer {
+    position: absolute;
+    bottom: 40px;
+    left: 60px;
+    right: 60px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 500;
+  }
+
+  @media print {
+    .cover {
+      background: #080c14 !important;
+      justify-content: center !important;
+      align-items: center !important;
+    }
+
+    .brand-name {
+      color: #f0efe8 !important;
+    }
+
+    .tagline {
+      color: #9ba9c9 !important;
+    }
+
+    .cover-footer {
+      color: #4d5f85 !important;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .logo {
+      width: 140px;
+    }
+
+    .cover-footer {
+      left: 24px;
+      right: 24px;
+      bottom: 24px;
+    }
+  }
+</style>

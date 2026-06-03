@@ -1,0 +1,375 @@
+---
+import { SITE } from '@config/site';
+---
+
+<section class="slide">
+  <span class="slide-number">07 / Website</span>
+  <div class="website-content">
+    <div class="website-header">
+      <h2 class="website-title">{SITE.name}</h2>
+      <a href={SITE.url} class="website-url" target="_blank" rel="noopener noreferrer">{SITE.url.replace('https://', '')}</a>
+    </div>
+
+    <div class="mockups">
+      <div class="mockup-desktop">
+        <div class="browser-bar">
+          <div class="browser-dots">
+            <span class="browser-dot" style="background:#ff5f57"></span>
+            <span class="browser-dot" style="background:#ffbd2e"></span>
+            <span class="browser-dot" style="background:#28c840"></span>
+          </div>
+          <span class="browser-url">{SITE.url}</span>
+          <div class="browser-spacer"></div>
+        </div>
+        <div class="browser-content">
+          <div class="desktop-site">
+            <div class="ds-hero">
+              <div class="ds-hero-logo">
+                <img src="/logo-corona.png" alt="" width="48" height="48" />
+              </div>
+              <div class="ds-hero-text">
+                <span class="ds-hero-brand">{SITE.name}</span>
+                <span class="ds-hero-tag">{SITE.tagline}</span>
+              </div>
+              <div class="ds-nav">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+            <div class="ds-body">
+              <div class="ds-row">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+              <div class="ds-row">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+            <div class="ds-footer-bar"></div>
+          </div>
+        </div>
+        <span class="mockup-label">Desktop</span>
+      </div>
+
+      <div class="mockup-mobile-wrap">
+        <div class="mockup-mobile">
+          <div class="m-phone">
+            <div class="m-notch"></div>
+            <div class="m-screen">
+              <div class="m-hero">
+                <div class="m-logo">
+                  <img src="/logo-cara.png" alt="" width="28" height="28" />
+                </div>
+                <div class="m-brand">MKM</div>
+                <div class="m-tag">{SITE.tagline}</div>
+                <div class="m-cta"></div>
+              </div>
+              <div class="m-cards">
+                <div class="m-card"></div>
+                <div class="m-card"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <span class="mockup-label">Mobile</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .website-content {
+    max-width: 1200px;
+  }
+
+  .website-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 48px;
+  }
+
+  .website-title {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(28px, 3vw, 40px);
+    color: var(--text-primary);
+    letter-spacing: 0.02em;
+  }
+
+  .website-url {
+    font-size: 14px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .website-url:hover {
+    color: var(--gold-500);
+  }
+
+  .mockups {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+    align-items: start;
+  }
+
+  .mockup-label {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-align: center;
+    margin-top: 16px;
+  }
+
+  /* -- Desktop Browser Frame -- */
+  .mockup-desktop {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .browser-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #1e1e1e;
+    padding: 10px 16px;
+    border-radius: 8px 8px 0 0;
+  }
+
+  .browser-dots {
+    display: flex;
+    gap: 7px;
+  }
+
+  .browser-dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+  }
+
+  .browser-url {
+    flex: 1;
+    text-align: center;
+    font-size: 12px;
+    color: #888;
+    background: #2a2a2a;
+    padding: 4px 12px;
+    border-radius: 4px;
+  }
+
+  .browser-spacer {
+    width: 50px;
+  }
+
+  .browser-content {
+    background: var(--bg-primary);
+    border: 1px solid #2a2a2a;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    overflow: hidden;
+  }
+
+  .desktop-site {
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .ds-hero {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .ds-hero-logo img {
+    width: 40px;
+    height: auto;
+    display: block;
+  }
+
+  .ds-hero-text {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ds-hero-brand {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--text-primary);
+    letter-spacing: 0.04em;
+  }
+
+  .ds-hero-tag {
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+
+  .ds-nav {
+    margin-left: auto;
+    display: flex;
+    gap: 16px;
+  }
+
+  .ds-nav span {
+    width: 48px;
+    height: 6px;
+    background: var(--bg-border);
+    border-radius: 3px;
+  }
+
+  .ds-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .ds-row {
+    display: flex;
+    gap: 12px;
+  }
+
+  .ds-row span {
+    flex: 1;
+    height: 80px;
+    background: var(--bg-secondary);
+    border-radius: 4px;
+  }
+
+  .ds-footer-bar {
+    height: 32px;
+    background: var(--bg-secondary);
+    border-radius: 4px;
+    margin-top: 8px;
+  }
+
+  /* -- Mobile Frame -- */
+  .mockup-mobile-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .mockup-mobile {
+    width: 200px;
+    margin: 0 auto;
+  }
+
+  .m-phone {
+    width: 200px;
+    height: 400px;
+    background: #1a1a1a;
+    border-radius: 28px;
+    padding: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+
+  .m-notch {
+    width: 60px;
+    height: 6px;
+    background: #111;
+    border-radius: 3px;
+    margin: 0 auto 8px;
+  }
+
+  .m-screen {
+    width: 100%;
+    height: calc(100% - 14px);
+    background: var(--bg-primary);
+    border-radius: 16px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+  }
+
+  .m-hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 16px 0;
+  }
+
+  .m-logo img {
+    width: 36px;
+    height: auto;
+    display: block;
+  }
+
+  .m-brand {
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: 0.04em;
+    color: var(--text-primary);
+  }
+
+  .m-tag {
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .m-cta {
+    width: 120px;
+    height: 32px;
+    background: var(--gold-500);
+    border-radius: 16px;
+    margin-top: 8px;
+  }
+
+  .m-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .m-card {
+    width: 100%;
+    height: 60px;
+    background: var(--bg-secondary);
+    border-radius: 6px;
+  }
+
+  @media print {
+    .website-url {
+      color: #666 !important;
+    }
+    .mockup-label {
+      color: #666 !important;
+    }
+    .browser-bar {
+      background: #eee !important;
+    }
+    .browser-url {
+      background: #ddd !important;
+      color: #555 !important;
+    }
+    .m-phone, .mockup-phone {
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1) !important;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .mockups {
+      grid-template-columns: 1fr;
+    }
+    .mockup-desktop {
+      order: 2;
+    }
+    .mockup-mobile-wrap {
+      order: 1;
+    }
+  }
+</style>

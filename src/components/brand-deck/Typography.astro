@@ -1,0 +1,181 @@
+---
+const weights = [
+  { name: 'Light', weight: 300, text: 'MKM Signature — Light 300' },
+  { name: 'Regular', weight: 400, text: 'MKM Signature — Regular 400' },
+  { name: 'Medium', weight: 500, text: 'MKM Signature — Medium 500' },
+  { name: 'SemiBold', weight: 600, text: 'MKM Signature — SemiBold 600' },
+  { name: 'Bold', weight: 700, text: 'MKM Signature — Bold 700' },
+  { name: 'ExtraBold', weight: 800, text: 'MKM Signature — ExtraBold 800' },
+];
+---
+
+<section class="slide">
+  <span class="slide-number">05 / Typography</span>
+  <div class="type-content">
+    <div class="type-header">
+      <h2 class="type-family">Montserrat</h2>
+      <span class="type-classification">Sans-serif — Google Fonts</span>
+    </div>
+
+    <div class="weights-list">
+      {weights.map((w) => (
+        <div class="weight-row">
+          <span class="weight-label">{w.name}</span>
+          <p class="weight-sample" style={`font-weight:${w.weight}`}>{w.text}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="hierarchy-section">
+      <h3 class="hierarchy-title">Hierarchy</h3>
+      <div class="hierarchy-examples">
+        <div class="h-item display">
+          <span class="h-tag">Display / H1</span>
+          <span class="h-sample" style="font-weight:800;font-size:clamp(32px,4vw,56px);letter-spacing:0.04em">Corte Premium</span>
+        </div>
+        <div class="h-item heading">
+          <span class="h-tag">Heading / H2</span>
+          <span class="h-sample" style="font-weight:600;font-size:clamp(20px,2.5vw,32px)">Estilo que habla por vos</span>
+        </div>
+        <div class="h-item body">
+          <span class="h-tag">Body</span>
+          <span class="h-sample" style="font-weight:400;font-size:16px;color:var(--text-secondary)">Servicio profesional de barbería a domicilio en CABA y Zona Norte.</span>
+        </div>
+        <div class="h-item caption">
+          <span class="h-tag">Caption / Meta</span>
+          <span class="h-sample" style="font-weight:500;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-muted)">@mkm_signature — Barbero a domicilio</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .type-content {
+    max-width: 1000px;
+  }
+
+  .type-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 48px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--bg-border);
+  }
+
+  .type-family {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(36px, 4vw, 56px);
+    color: var(--text-primary);
+    letter-spacing: -0.01em;
+  }
+
+  .type-classification {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+
+  .weights-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 60px;
+  }
+
+  .weight-row {
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .weight-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    min-width: 100px;
+    flex-shrink: 0;
+  }
+
+  .weight-sample {
+    font-family: var(--font-body);
+    font-size: 18px;
+    color: var(--text-primary);
+    letter-spacing: 0.02em;
+  }
+
+  .hierarchy-section {
+    padding-top: 8px;
+  }
+
+  .hierarchy-title {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 24px;
+  }
+
+  .hierarchy-examples {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .h-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .h-tag {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  .h-sample {
+    font-family: var(--font-body);
+  }
+
+  @media print {
+    .type-family {
+      color: #111 !important;
+    }
+    .type-classification, .weight-label, .hierarchy-title, .h-tag {
+      color: #666 !important;
+    }
+    .weight-sample {
+      color: #111 !important;
+    }
+    .type-header {
+      border-bottom-color: #ddd !important;
+    }
+    .weight-row {
+      border-bottom-color: #eee !important;
+    }
+    .h-sample[style*="text-secondary"] {
+      color: #555 !important;
+    }
+    .h-sample[style*="text-muted"] {
+      color: #888 !important;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .weight-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 4px;
+    }
+  }
+</style>

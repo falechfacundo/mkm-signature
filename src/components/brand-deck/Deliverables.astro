@@ -1,0 +1,148 @@
+---
+const items = [
+  { name: 'Logo Package', desc: 'Primary, negative, isotype — PNG + SVG' },
+  { name: 'SVG Assets', desc: 'Icons, badges, brand elements' },
+  { name: 'Brand Assets', desc: 'Color palette, typography, textures' },
+  { name: 'Website', desc: 'Responsive landing page with booking system' },
+  { name: 'AI Design System', desc: 'Reusable components and tokens' },
+];
+---
+
+<section class="slide">
+  <span class="slide-number">08 / Deliverables</span>
+  <div class="deliverables-content">
+    <div class="checklist">
+      {items.map((item, i) => (
+        <div class="check-item">
+          <div class="check-marker">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <rect x="1" y="1" width="18" height="18" rx="4" stroke="currentColor" stroke-width="1.5" fill="none"/>
+              <path d="M6 10.5L9 13.5L14 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div class="check-info">
+            <span class="check-name">{item.name}</span>
+            <span class="check-desc">{item.desc}</span>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="deliverables-footer">
+      <div class="footer-line"></div>
+      <div class="footer-brand">
+        <span class="footer-name">MKM Signature</span>
+        <span class="footer-year">{new Date().getFullYear()}</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .deliverables-content {
+    max-width: 700px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-bottom: auto;
+  }
+
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--bg-border);
+  }
+
+  .check-marker {
+    color: var(--gold-500);
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .check-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .check-name {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--text-primary);
+    letter-spacing: 0.02em;
+  }
+
+  .check-desc {
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+
+  .deliverables-footer {
+    margin-top: 60px;
+    padding-top: 24px;
+  }
+
+  .footer-line {
+    width: 40px;
+    height: 2px;
+    background: var(--gold-500);
+    margin-bottom: 20px;
+  }
+
+  .footer-brand {
+    display: flex;
+    gap: 16px;
+    align-items: baseline;
+  }
+
+  .footer-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+  }
+
+  .footer-year {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  @media print {
+    .check-item {
+      border-bottom-color: #ddd !important;
+    }
+    .check-name {
+      color: #111 !important;
+    }
+    .check-desc {
+      color: #555 !important;
+    }
+    .check-marker {
+      color: #b8962a !important;
+    }
+    .footer-name {
+      color: #111 !important;
+    }
+    .footer-year {
+      color: #666 !important;
+    }
+    .footer-line {
+      background: #b8962a !important;
+    }
+  }
+</style>

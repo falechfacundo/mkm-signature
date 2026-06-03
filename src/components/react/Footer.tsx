@@ -43,7 +43,7 @@ export default function Footer() {
               <img
                 src="/logo-cara-blanco.svg"
                 alt="MKM Signature"
-                style={{ width: 28, height: 'auto', display: 'block' }}
+                style={{ width: 44, height: 'auto', display: 'block' }}
               />
               <span style={{ fontWeight: 700, fontSize: '1.05rem', letterSpacing: '0.04em' }}>
                 MKM Signature

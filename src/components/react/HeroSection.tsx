@@ -143,7 +143,7 @@ export default function HeroSection({ params, service }: Props) {
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, ease: [0.17, 0.67, 0.29, 1] }}
-              style={{ display: 'block', width: 24, height: 'auto' }}
+              style={{ display: 'block', width: 40, height: 'auto' }}
             />
             <span style={{ color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.12em', fontSize: '0.82rem' }}>
               {SITE.name}

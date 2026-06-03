@@ -119,6 +119,27 @@ export default function HeroSection({ params, service }: Props) {
         ))}
       </motion.div>
 
+      <motion.div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          right: '4%',
+          top: '12%',
+          y: useTransform(scrollYProgress, [0, 1], ['0%', '-15%']),
+          pointerEvents: 'none',
+          zIndex: 1,
+          opacity: useTransform(scrollYProgress, [0, 0.15], [0.4, 0]),
+        }}
+      >
+        <motion.img
+          src="/logo-cara-blanco.svg"
+          alt=""
+          style={{ width: 130, height: 'auto', display: 'block' }}
+          animate={{ y: [0, -12, 0] }}
+          transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
+        />
+      </motion.div>
+
       <div
         style={{
           position: 'relative',

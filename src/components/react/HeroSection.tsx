@@ -66,6 +66,23 @@ export default function HeroSection({ params, service }: Props) {
   };
 
   return (
+    <>
+    <style>{`
+      @keyframes hero-float-glow {
+        0%, 100% {
+          transform: translateY(0);
+          filter: drop-shadow(0 0 12px rgba(212,167,44,0.25)) drop-shadow(0 0 40px rgba(212,167,44,0.08));
+        }
+        50% {
+          transform: translateY(-20px);
+          filter: drop-shadow(0 0 30px rgba(212,167,44,0.55)) drop-shadow(0 0 70px rgba(212,167,44,0.2)) drop-shadow(0 0 100px rgba(212,167,44,0.1));
+        }
+      }
+      .hero-isotype-float {
+        animation: hero-float-glow 4.5s ease-in-out infinite;
+        will-change: transform, filter;
+      }
+    `}</style>
     <section
       id="hero"
       ref={containerRef}
@@ -123,21 +140,23 @@ export default function HeroSection({ params, service }: Props) {
         aria-hidden
         style={{
           position: 'absolute',
-          right: '4%',
-          top: '12%',
-          y: useTransform(scrollYProgress, [0, 1], ['0%', '-15%']),
+          right: '1%',
+          top: '6%',
+          y: useTransform(scrollYProgress, [0, 1], ['0%', '-40%']),
+          x: useTransform(scrollYProgress, [0, 1], ['0%', '12%']),
+          scale: useTransform(scrollYProgress, [0, 0.5], [1, 0.7]),
+          opacity: useTransform(scrollYProgress, [0, 0.2, 0.5], [1, 0.5, 0]),
           pointerEvents: 'none',
           zIndex: 1,
-          opacity: useTransform(scrollYProgress, [0, 0.15], [0.4, 0]),
         }}
       >
-        <motion.img
-          src="/logo-cara-blanco.svg"
-          alt=""
-          style={{ width: 130, height: 'auto', display: 'block' }}
-          animate={{ y: [0, -12, 0] }}
-          transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut' }}
-        />
+        <div className="hero-isotype-float">
+          <img
+            src="/logo-cara-blanco.svg"
+            alt=""
+            style={{ width: 200, height: 'auto', display: 'block' }}
+          />
+        </div>
       </motion.div>
 
       <div
@@ -355,5 +374,6 @@ export default function HeroSection({ params, service }: Props) {
         </motion.svg>
       </motion.div>
     </section>
+    </>
   );
 }

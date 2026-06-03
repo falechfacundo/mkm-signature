@@ -11,13 +11,13 @@ interface Props {
 
 const { params, service } = Astro.props;
 
-const title = `Ad Astra - ${service.label}`;
+const title = `${SITE.name} - ${service.label}`;
 const description = service.subheadline;
 const ogImage = `${SITE.url}/og-image.png`;
 ---
 
 <!doctype html>
-<html lang={params.lang} style="background-color:#080808">
+<html lang={params.lang} style="background-color:#080c14">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -29,14 +29,17 @@ const ogImage = `${SITE.url}/og-image.png`;
     <meta property="og:url" content={SITE.url} />
     <meta property="og:type" content="website" />
 
+    <link rel="icon" type="image/svg+xml" href="/logo-cara.svg" />
+    <link rel="alternate icon" href="/favicon.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
 
     <title>{title}</title>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
   </head>
   <body>
     <slot />

@@ -7,7 +7,7 @@ import { SITE } from '@config/site';
 import { useTurnstile } from '@lib/useTurnstile';
 import type { HubParams } from '@lib/params';
 import type { ServiceConfig } from '@config/services';
-import { gsap } from 'gsap';
+import gsap from 'gsap';
 
 interface Props {
   params: HubParams;

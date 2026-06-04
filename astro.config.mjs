@@ -15,6 +15,9 @@ export default defineConfig({
     server: {
       allowedHosts: true,
     },
+    ssr: {
+      noExternal: ['gsap'],
+    },
   },
 
   output: 'server',

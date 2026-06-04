@@ -125,7 +125,9 @@ export default function MapaCobertura({ hoveredZone, onHoverZone }: Props) {
     if (!zone) return 'rgba(59,130,246,0.08)';
     const base = [0, 0.25, 0.15, 0.08, 0.04][zone];
     const hover = [0, 0.6, 0.4, 0.2, 0.1][zone];
-    const alpha = hoveredRef.current === key ? hover : base;
+    const faded = [0, 0.08, 0.05, 0.03, 0.015][zone];
+    const h = hoveredRef.current;
+    const alpha = h === key ? hover : h ? faded : base;
     return `rgba(212,167,44,${alpha})`;
   };
 
@@ -133,7 +135,9 @@ export default function MapaCobertura({ hoveredZone, onHoverZone }: Props) {
     if (!zone) return 'rgba(59,130,246,0.12)';
     const base = [0, 0.4, 0.3, 0.15, 0.08][zone];
     const hover = [0, 0.85, 0.6, 0.35, 0.2][zone];
-    const alpha = hoveredRef.current === key ? hover : base;
+    const faded = [0, 0.12, 0.08, 0.04, 0.02][zone];
+    const h = hoveredRef.current;
+    const alpha = h === key ? hover : h ? faded : base;
     return `rgba(212,167,44,${alpha})`;
   };
 
@@ -141,7 +145,13 @@ export default function MapaCobertura({ hoveredZone, onHoverZone }: Props) {
     if (!zone) return 0.5;
     const base = [0, 1, 1, 0.7, 0.5][zone];
     const hover = [0, 2, 1.5, 1.2, 1][zone];
-    return hoveredRef.current === key ? hover : base;
+    const h = hoveredRef.current;
+    return h === key ? hover : h ? 0.5 : base;
+  };
+
+  const getFilter = (zone: number, key: string) => {
+    if (!zone) return undefined;
+    return hoveredRef.current === key ? 'url(#glow)' : undefined;
   };
 
   return (
@@ -162,6 +172,11 @@ export default function MapaCobertura({ hoveredZone, onHoverZone }: Props) {
         onMouseLeave={() => { onHoverZone(null); setTooltip(null); }}
       >
         <g transform={`translate(${x},${y}) scale(${k})`}>
+          <defs>
+            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="0" stdDeviation="2.5" floodColor="rgba(212,167,44,0.6)" />
+            </filter>
+          </defs>
           {features.map((f, i) => (
             <path
               key={f.key + i}
@@ -169,6 +184,7 @@ export default function MapaCobertura({ hoveredZone, onHoverZone }: Props) {
               fill={getFill(f.zone, f.key)}
               stroke={getStroke(f.zone, f.key)}
               strokeWidth={getStrokeWidth(f.zone, f.key)}
+              filter={getFilter(f.zone, f.key)}
               style={{
                 transition: 'all 0.2s ease',
                 cursor: f.zone ? 'pointer' : 'default',

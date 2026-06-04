@@ -6,8 +6,6 @@ import tailwindcss from '@tailwindcss/vite';
 import vercel from '@astrojs/vercel';
 
 export default defineConfig({
-  site: 'https://onboarding.ad-astra.me',
-
   integrations: [
     react(),
   ],

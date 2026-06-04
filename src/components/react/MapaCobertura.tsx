@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef, useCallback } from 'react';
 import { geoPath, geoMercator } from 'd3-geo';
 import type { GeoPermissibleObjects } from 'd3-geo';
-import { Plus, Minus } from 'lucide-react';
+import { Plus, Minus, RotateCcw } from 'lucide-react';
 
 const normalize = (s: string) =>
   s.toLowerCase()
@@ -38,24 +38,30 @@ interface Props {
 export default function MapaCobertura({ hoveredZone, onHoverZone }: Props) {
   const [features, setFeatures] = useState<Array<{ d: string; name: string; key: string; zone: number }>>([]);
   const [tooltip, setTooltip] = useState<{ name: string; price: string; x: number; y: number } | null>(null);
-  const [{ x, y, k }, setTransform] = useState({ x: 0, y: 0, k: 1.3 });
+  const [{ x, y, k }, setTransform] = useState({ x: -30, y: 0, k: 1.5 });
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const dragging = useRef(false);
   const dragStart = useRef({ x: 0, y: 0 });
-  const tfRef = useRef({ x: 0, y: 0, k: 1.3 });
+  const tfRef = useRef({ x: -30, y: 0, k: 1.5 });
   const hoveredRef = useRef(hoveredZone);
   hoveredRef.current = normalize(hoveredZone || '');
 
   const zoomTo = useCallback((newK: number, cx = 400, cy = 300) => {
     setTransform((prev) => {
-      const clamped = Math.max(0.5, Math.min(8, newK));
+      const clamped = Math.max(1.5, Math.min(8, newK));
       const nx = cx - (cx - prev.x) * (clamped / prev.k);
       const ny = cy - (cy - prev.y) * (clamped / prev.k);
       const t = { x: nx, y: ny, k: clamped };
       tfRef.current = t;
       return t;
     });
+  }, []);
+
+  const resetView = useCallback(() => {
+    const t = { x: -30, y: 0, k: 1.5 };
+    tfRef.current = t;
+    setTransform(t);
   }, []);
 
   const handleWheel = useCallback((e: React.WheelEvent) => {
@@ -239,6 +245,17 @@ export default function MapaCobertura({ hoveredZone, onHoverZone }: Props) {
           }}
         >
           <Minus size={14} />
+        </button>
+        <button
+          onClick={resetView}
+          style={{
+            width: '32px', height: '32px', borderRadius: '8px', border: '1px solid var(--bg-border)',
+            background: 'rgba(14,22,40,0.9)', color: 'var(--text-secondary)', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            backdropFilter: 'blur(8px)',
+          }}
+        >
+          <RotateCcw size={13} />
         </button>
       </div>
 

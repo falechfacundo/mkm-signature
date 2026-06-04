@@ -1,16 +1,33 @@
 'use client';
 
-import { Gift, Scissors, Sparkles, ChevronRight } from 'lucide-react';
+import { Gift, Scissors, Sparkles, ChevronRight, Calendar } from 'lucide-react';
 import { SITE } from '@config/site';
-
-const MILESTONES = [
-  { count: 3, label: 'regalo sorpresa', icon: Gift },
-  { count: 7, label: 'corte de regalo', icon: Scissors },
-  { count: 10, label: 'upgrade premium gratis', icon: Sparkles },
-];
 
 const PROGRESS = 4;
 const TOTAL = 10;
+
+const MILESTONES = [
+  { count: 3, label: 'regalo sorpresa', icon: Gift, emoji: '🎁' },
+  { count: 7, label: 'corte de regalo', icon: Scissors, emoji: '✂️' },
+  { count: 10, label: 'upgrade premium gratis', icon: Sparkles, emoji: '💈' },
+];
+
+const BADGES = [
+  { min: 0, label: 'New Client', desc: 'Estás empezando' },
+  { min: 4, label: 'Regular Client', desc: 'Ya sos parte' },
+  { min: 7, label: 'Loyal Client', desc: 'Siempre volvés' },
+  { min: 10, label: 'VIP Client', desc: 'Cliente premium' },
+];
+
+const TIMELINE = [
+  { num: 4, label: 'Corte + Barba', time: 'Hoy' },
+  { num: 3, label: 'Corte Premium', time: 'Hace 2 semanas' },
+  { num: 2, label: 'Corte Premium', time: 'Hace 1 mes' },
+  { num: 1, label: 'Corte + Barba', time: 'Hace 2 meses' },
+];
+
+const currentBadge = BADGES.filter(b => PROGRESS >= b.min).pop()!;
+const nextMilestone = MILESTONES.find(m => PROGRESS < m.count);
 
 export default function LoyaltyCardUI() {
   return (
@@ -18,21 +35,15 @@ export default function LoyaltyCardUI() {
       style={{
         minHeight: '100dvh',
         background: 'var(--bg-primary)',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '2rem 1.25rem',
+        padding: '2rem 1.25rem 4rem',
       }}
     >
-      <div style={{ maxWidth: 420, width: '100%' }}>
+      <div style={{ maxWidth: 420, margin: '0 auto' }}>
         <div style={{ marginBottom: '1.5rem' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem', marginBottom: '0.25rem' }}>
-            <span style={{ color: 'var(--accent)', fontWeight: 700, fontSize: '0.85rem', letterSpacing: '0.04em' }}>
-              {SITE.name}
-            </span>
-          </div>
-          <p style={{ margin: 0, color: 'var(--text-muted)', fontSize: '0.82rem' }}>
+          <span style={{ color: 'var(--accent)', fontWeight: 700, fontSize: '0.85rem', letterSpacing: '0.04em' }}>
+            {SITE.name}
+          </span>
+          <p style={{ margin: '0.1rem 0 0', color: 'var(--text-muted)', fontSize: '0.82rem' }}>
             Tu tarjeta de beneficios
           </p>
         </div>
@@ -40,10 +51,11 @@ export default function LoyaltyCardUI() {
         <div style={{
           border: '1px solid var(--bg-border)',
           borderRadius: '24px',
-          padding: '2rem 1.5rem',
+          padding: '1.75rem 1.5rem',
           background: 'linear-gradient(135deg, rgba(20,30,54,0.6), rgba(14,22,40,0.6))',
           position: 'relative',
           overflow: 'hidden',
+          marginBottom: '1rem',
         }}>
           <div style={{
             position: 'absolute', inset: 0, pointerEvents: 'none',
@@ -89,10 +101,9 @@ export default function LoyaltyCardUI() {
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-              {MILESTONES.map((m, i) => {
+              {MILESTONES.map((m) => {
                 const Icon = m.icon;
                 const unlocked = PROGRESS >= m.count;
-                const isNext = !unlocked && (i === 0 || PROGRESS >= MILESTONES[i - 1].count);
                 return (
                   <div key={m.count} style={{
                     display: 'flex', alignItems: 'center', gap: '0.75rem',
@@ -116,7 +127,7 @@ export default function LoyaltyCardUI() {
                           {m.count} cortes
                         </div>
                         <div style={{ fontSize: '0.82rem', color: unlocked ? 'var(--text-primary)' : 'var(--text-secondary)', fontWeight: 600, marginTop: '1px' }}>
-                          {m.label}
+                          {m.emoji} {m.label}
                         </div>
                       </div>
                       {unlocked && (
@@ -146,6 +157,108 @@ export default function LoyaltyCardUI() {
             >
               <ChevronRight size={18} />
               Ver mi progreso
+            </div>
+          </div>
+        </div>
+
+        {nextMilestone && (
+          <div style={{
+            border: '1px solid rgba(212,167,44,0.2)',
+            borderRadius: '18px',
+            padding: '1.25rem 1.25rem',
+            background: 'rgba(212,167,44,0.04)',
+            marginBottom: '1rem',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <div style={{
+                width: 40, height: 40, borderRadius: '12px',
+                background: 'rgba(212,167,44,0.1)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                flexShrink: 0,
+              }}>
+                <nextMilestone.icon size={18} color="var(--accent)" />
+              </div>
+              <div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                  Próximo beneficio
+                </div>
+                <div style={{ fontSize: '0.82rem', color: 'var(--text-primary)', fontWeight: 600, marginTop: '1px' }}>
+                  Te faltan {nextMilestone.count - PROGRESS} cortes para: {nextMilestone.emoji} {nextMilestone.label}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div style={{
+          border: '1px solid var(--bg-border)',
+          borderRadius: '18px',
+          padding: '1.25rem 1.25rem',
+          background: 'linear-gradient(135deg, rgba(20,30,54,0.4), rgba(14,22,40,0.4))',
+          marginBottom: '1rem',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '1rem' }}>
+            <Calendar size={14} color="var(--text-muted)" />
+            <span style={{ color: 'var(--text-muted)', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              Historial de servicios
+            </span>
+          </div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+            {TIMELINE.map((entry) => (
+              <div key={entry.num} style={{
+                display: 'flex', alignItems: 'center', gap: '0.75rem',
+                paddingBottom: '0.65rem',
+                borderBottom: entry.num > 1 ? '1px solid var(--bg-border)' : 'none',
+              }}>
+                <div style={{
+                  width: 30, height: 30, borderRadius: '8px',
+                  background: 'rgba(255,255,255,0.04)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  flexShrink: 0,
+                  fontSize: '0.65rem', fontWeight: 700, color: 'var(--text-muted)',
+                }}>
+                  #{entry.num}
+                </div>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--text-primary)', fontWeight: 500 }}>
+                    {entry.label}
+                  </div>
+                  <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', marginTop: '1px' }}>
+                    {entry.time}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div style={{
+          border: '1px solid var(--bg-border)',
+          borderRadius: '18px',
+          padding: '1.25rem 1.25rem',
+          background: 'linear-gradient(135deg, rgba(20,30,54,0.4), rgba(14,22,40,0.4))',
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+            <div>
+              <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.15rem' }}>
+                Tu nivel
+              </div>
+              <div style={{ fontSize: '0.95rem', color: 'var(--text-primary)', fontWeight: 700 }}>
+                {currentBadge.label}
+              </div>
+              <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                {currentBadge.desc}
+              </div>
+            </div>
+            <div style={{
+              width: 44, height: 44, borderRadius: '50%',
+              border: '2px solid var(--accent)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              background: 'rgba(212,167,44,0.1)',
+              fontSize: '1.1rem', fontWeight: 800, color: 'var(--accent)',
+            }}>
+              {PROGRESS}
             </div>
           </div>
         </div>

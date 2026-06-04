@@ -50,11 +50,11 @@ export default function Navbar() {
           <img
             src="/logo-cara-dorado.svg"
             alt="MKM Signature"
-            style={{ width: 58, height: 'auto', display: 'block' }}
+            style={{ width: 96, height: 'auto', display: 'block' }}
           />
-          <span style={{ fontWeight: 700, fontSize: '1.1rem', letterSpacing: '0.04em', color: 'var(--accent)' }}>
+          {/* <span style={{ fontWeight: 700, fontSize: '1.1rem', letterSpacing: '0.04em', color: 'var(--accent)' }}>
             MKM Signature
-          </span>
+          </span> */}
         </a>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>

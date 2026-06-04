@@ -34,8 +34,7 @@ export default function Footer() {
               href="/"
               style={{
                 display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
+                flexDirection: 'column',
                 textDecoration: 'none',
                 color: 'var(--text-primary)',
               }}
@@ -43,7 +42,7 @@ export default function Footer() {
               <img
                 src="/logo-cara-dorado.svg"
                 alt="MKM Signature"
-                style={{ width: 124, height: 'auto', display: 'block' }}
+                style={{ width: 224, height: 'auto', display: 'block' }}
               />
               <span style={{ fontWeight: 700, fontSize: '1.2rem', letterSpacing: '0.04em', color: 'var(--accent)' }}>
                 MKM Signature

@@ -41,11 +41,11 @@ export default function Footer() {
               }}
             >
               <img
-                src="/logo-cara-blanco.svg"
+                src="/logo-cara-dorado.svg"
                 alt="MKM Signature"
                 style={{ width: 124, height: 'auto', display: 'block' }}
               />
-              <span style={{ fontWeight: 700, fontSize: '1.2rem', letterSpacing: '0.04em', color: 'var(--text-primary)' }}>
+              <span style={{ fontWeight: 700, fontSize: '1.2rem', letterSpacing: '0.04em', color: 'var(--accent)' }}>
                 MKM Signature
               </span>
             </a>
@@ -99,6 +99,10 @@ export default function Footer() {
           <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem', letterSpacing: '0.04em' }}>
             &copy; {new Date().getFullYear()} MKM Signature
           </span>
+          <div style={{ display: 'flex', gap: '1rem' }}>
+            <a href="/privacy" style={{ color: 'var(--text-muted)', fontSize: '0.7rem', textDecoration: 'none' }}>Privacidad</a>
+            <a href="/terms" style={{ color: 'var(--text-muted)', fontSize: '0.7rem', textDecoration: 'none' }}>Términos</a>
+          </div>
           <span style={{ color: 'var(--text-muted)', fontSize: '0.7rem' }}>
             Hecho con dedicación
           </span>

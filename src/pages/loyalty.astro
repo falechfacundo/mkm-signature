@@ -1,0 +1,33 @@
+---
+import '../styles/global.css';
+import LoyaltyCardUI from '@components/react/LoyaltyCardUI';
+import { SITE } from '@config/site';
+---
+
+<!doctype html>
+<html lang="es" style="background-color: #080c14">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Tu tarjeta de beneficios MKM Signature" />
+
+    <meta property="og:title" content="Beneficios MKM - {SITE.name}" />
+    <meta property="og:description" content="Cada corte suma. Volver tiene recompensa." />
+    <meta property="og:url" content="{SITE.url}/loyalty" />
+    <meta property="og:type" content="website" />
+
+    <link rel="icon" type="image/svg+xml" href="/logo-cara.svg" />
+    <link rel="alternate icon" href="/favicon.ico" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>Beneficios MKM - {SITE.name}</title>
+  </head>
+  <body>
+    <LoyaltyCardUI client:only="react" />
+  </body>
+</html>

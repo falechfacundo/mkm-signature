@@ -83,9 +83,9 @@ export default function LoyaltySection() {
                     textAlign: 'center',
                   }}>
                     <div style={{
-                      width: 56, height: 56, borderRadius: '14px',
-                      background: 'rgba(212,167,44,0.1)',
-                      border: '1px solid rgba(212,167,44,0.2)',
+                      width: 52, height: 52, borderRadius: '14px',
+                      background: 'var(--bg-surface)',
+                      border: '1px solid var(--bg-border)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       flexShrink: 0,
                     }}>

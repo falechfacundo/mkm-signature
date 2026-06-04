@@ -48,11 +48,11 @@ export default function Navbar() {
           }}
         >
           <img
-            src="/logo-cara-blanco.svg"
+            src="/logo-cara-dorado.svg"
             alt="MKM Signature"
-            style={{ width: 48, height: 'auto', display: 'block' }}
+            style={{ width: 58, height: 'auto', display: 'block' }}
           />
-          <span style={{ fontWeight: 700, fontSize: '1.1rem', letterSpacing: '0.04em', color: 'var(--text-primary)' }}>
+          <span style={{ fontWeight: 700, fontSize: '1.1rem', letterSpacing: '0.04em', color: 'var(--accent)' }}>
             MKM Signature
           </span>
         </a>

@@ -58,7 +58,7 @@ export default function LoyaltySection() {
             background: 'radial-gradient(ellipse at 30% 50%, rgba(212,167,44,0.06) 0%, transparent 70%)',
           }} />
 
-          <div style={{ position: 'relative', maxWidth: '42rem', margin: '0 auto', textAlign: 'center' }}>
+          <div style={{ position: 'relative', maxWidth: '52rem', margin: '0 auto', textAlign: 'center' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem', marginBottom: '0.75rem' }}>
               <img src="/logo-cara-blanco.svg" alt="" style={{ display: 'block', width: 32, height: 'auto' }} />
               <span className="mono" style={{ color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.12em', fontSize: '0.75rem' }}>
@@ -70,33 +70,37 @@ export default function LoyaltySection() {
               Cada corte suma.<br />Volver tiene recompensa.
             </h2>
 
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '1.5rem', flexWrap: 'wrap', margin: '2.5rem 0' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem', margin: '2.5rem auto', maxWidth: '48rem' }}>
               {STEPS.map((step, i) => {
                 const Icon = step.icon;
                 return (
                   <div key={step.count} style={{
-                    display: 'flex', alignItems: 'center', gap: '0.75rem',
-                    background: 'rgba(255,255,255,0.03)',
+                    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.85rem',
+                    background: 'rgba(255,255,255,0.02)',
                     border: '1px solid var(--bg-border)',
-                    borderRadius: '14px',
-                    padding: '0.85rem 1.25rem',
-                    minWidth: 0,
+                    borderRadius: '16px',
+                    padding: '2rem 1rem',
+                    textAlign: 'center',
                   }}>
                     <div style={{
-                      width: 40, height: 40, borderRadius: '10px',
+                      width: 56, height: 56, borderRadius: '14px',
                       background: 'rgba(212,167,44,0.1)',
+                      border: '1px solid rgba(212,167,44,0.2)',
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
                       flexShrink: 0,
                     }}>
-                      <Icon size={18} color="var(--accent)" />
+                      <Icon size={24} color="var(--accent)" />
                     </div>
-                    <div style={{ textAlign: 'left' }}>
-                      <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', lineHeight: 1.2 }}>
-                        {step.count} cortes
+                    <div>
+                      <div style={{ fontSize: '1.1rem', color: 'var(--accent)', fontWeight: 700 }}>
+                        {step.count}
                       </div>
-                      <div style={{ fontSize: '0.85rem', color: 'var(--text-primary)', fontWeight: 600, marginTop: '1px' }}>
-                        {step.label}
+                      <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', marginTop: '2px' }}>
+                        cortes
                       </div>
+                    </div>
+                    <div style={{ fontSize: '0.85rem', color: 'var(--text-primary)', fontWeight: 600 }}>
+                      {step.label}
                     </div>
                   </div>
                 );

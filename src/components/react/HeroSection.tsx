@@ -178,14 +178,6 @@ export default function HeroSection({ params, service }: Props) {
             transition={{ duration: 0.5, ease: [0.17, 0.67, 0.29, 1] }}
             style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}
           >
-            <motion.img
-              src="/logo-cara-blanco.svg"
-              alt=""
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, ease: [0.17, 0.67, 0.29, 1] }}
-              style={{ display: 'block', width: 40, height: 'auto' }}
-            />
             <span style={{ color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.12em', fontSize: '0.82rem' }}>
               {SITE.name}
             </span>

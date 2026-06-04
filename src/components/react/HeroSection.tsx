@@ -1,12 +1,13 @@
 'use client';
 
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { Loader2 } from 'lucide-react';
 import { SITE } from '@config/site';
 import { useTurnstile } from '@lib/useTurnstile';
 import type { HubParams } from '@lib/params';
 import type { ServiceConfig } from '@config/services';
+import { gsap } from 'gsap';
 
 interface Props {
   params: HubParams;
@@ -65,6 +66,31 @@ export default function HeroSection({ params, service }: Props) {
     }),
   };
 
+  useEffect(() => {
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+    tl.fromTo('#hero', {
+      opacity: 0, filter: 'blur(6px)',
+    }, {
+      opacity: 1, filter: 'blur(0px)',
+      duration: 0.2, ease: 'none',
+    }, 0)
+    .fromTo('#mkm-logo', {
+      opacity: 0, scale: 0.98, y: 10, filter: 'blur(8px)',
+    }, {
+      opacity: 1, scale: 1, y: 0, filter: 'blur(0px)',
+      duration: 0.5,
+    }, 0.2)
+    .fromTo('#mkm-glow', {
+      opacity: 0,
+    }, {
+      opacity: 1, duration: 0.5,
+    }, 0.5)
+    .to('#mkm-glow', {
+      opacity: 0.7, duration: 0.2,
+    }, 1.0);
+  }, []);
+
   return (
     <>
     <style>{`
@@ -81,6 +107,11 @@ export default function HeroSection({ params, service }: Props) {
       .hero-isotype-float {
         animation: hero-float-glow 4.5s ease-in-out infinite;
         will-change: transform, filter;
+      }
+      #mkm-logo {
+        opacity: 0;
+        transform: translateY(10px) scale(0.98);
+        filter: blur(8px);
       }
     `}</style>
     <section
@@ -152,10 +183,21 @@ export default function HeroSection({ params, service }: Props) {
       >
         <div className="hero-isotype-float">
           <img
+            id="mkm-logo"
             src="/logo-cara-dorado.svg"
             
             alt=""
             style={{ width: 1124, height: 'auto', display: 'block', maxWidth: 'none' }}
+          />
+          <div
+            id="mkm-glow"
+            aria-hidden
+            style={{
+              position: 'absolute', right: '-60px', top: '50%', translate: '0 -50%',
+              width: 240, height: '80%',
+              background: 'radial-gradient(ellipse at left, rgba(212,167,44,0.25) 0%, transparent 70%)',
+              pointerEvents: 'none',
+            }}
           />
         </div>
       </motion.div>

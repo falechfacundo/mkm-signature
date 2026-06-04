@@ -140,21 +140,21 @@ export default function HeroSection({ params, service }: Props) {
         aria-hidden
         style={{
           position: 'absolute',
-          right: '1%',
-          top: '6%',
-          y: useTransform(scrollYProgress, [0, 1], ['0%', '-40%']),
-          x: useTransform(scrollYProgress, [0, 1], ['0%', '12%']),
-          scale: useTransform(scrollYProgress, [0, 0.5], [1, 0.7]),
-          opacity: useTransform(scrollYProgress, [0, 0.2, 0.5], [1, 0.5, 0]),
+          right: '0%',
+          top: '42%',
+          y: useTransform(scrollYProgress, [0, 1], ['0%', '-30%']),
+          x: useTransform(scrollYProgress, [0, 1], ['10%', '18%']),
+          scale: useTransform(scrollYProgress, [0, 0.5], [1, 0.75]),
+          opacity: useTransform(scrollYProgress, [0, 0.2, 0.5], [1, 0.4, 0]),
           pointerEvents: 'none',
           zIndex: 1,
         }}
       >
         <div className="hero-isotype-float">
           <img
-            src="/logo-cara-blanco.svg"
+            src="/logo-cara-dorado.svg"
             alt=""
-            style={{ width: 200, height: 'auto', display: 'block' }}
+            style={{ width: 1124, height: 'auto', display: 'block', maxWidth: 'none' }}
           />
         </div>
       </motion.div>

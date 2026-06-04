@@ -7,6 +7,7 @@ import Footer from '@components/react/Footer';
 import Hero from '@blocks/Hero.astro';
 import Process from '@blocks/Process.astro';
 import Deliverables from '@blocks/Deliverables.astro';
+import Loyalty from '@blocks/Loyalty.astro';
 import Communication from '@blocks/Communication.astro';
 import Booking from '@blocks/Booking.astro';
 import FAQ from '@blocks/FAQ.astro';
@@ -23,39 +24,37 @@ const service = SERVICES[params.service];
 	<Navbar client:load />
 	<Hero params={params} service={service} />
 
-	<div class="section-divider">
+	<!-- <div class="section-divider">
 		<img src="/logo-cara-blanco.svg" alt="" width="40" />
-	</div>
+	</div> -->
 
 	<Process />
 
-	<div class="section-divider">
+	<!-- <div class="section-divider">
 		<img src="/logo-cara-blanco.svg" alt="" width="40" />
-	</div>
+	</div> -->
 
 	<Deliverables service={service} />
 
-	<div class="section-divider">
-		<img src="/logo-cara-blanco.svg" alt="" width="40" />
-	</div>
+	<Loyalty />
 
 	<Communication />
 
-	<div class="section-divider">
+	<!-- <div class="section-divider">
 		<img src="/logo-cara-blanco.svg" alt="" width="40" />
-	</div>
+	</div> -->
 
 	<Booking />
 
-	<div class="section-divider">
+	<!-- <div class="section-divider">
 		<img src="/logo-cara-blanco.svg" alt="" width="40" />
-	</div>
+	</div> -->
 
 	<FAQ service={service} />
 
-	<div class="section-divider">
+	<!-- <div class="section-divider">
 		<img src="/logo-cara-blanco.svg" alt="" width="40" />
-	</div>
+	</div> -->
 
 	<CTAFinal params={params} service={service} />
 
@@ -63,14 +62,14 @@ const service = SERVICES[params.service];
 </BaseLayout>
 
 <style>
-	.section-divider {
+	.section-divider { -->
 		display: flex;
 		justify-content: center;
 		padding: 1.5rem 0;
-		pointer-events: none;
+		/* pointer-events: none;
 	}
 
-	.section-divider img {
+	.section-divider img { */
 		display: block;
 		opacity: 0.35;
 	}

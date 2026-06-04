@@ -10,13 +10,19 @@ const normalize = (s: string) =>
     .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9 ]/g, '');
 
-const COVERAGE_NAMES = new Set([
-  'Nuñez', 'Belgrano', 'Vicente López',
-  'Palermo', 'Recoleta', 'Caballito',
-  'Almagro', 'Balvanera', 'Villa Crespo',
-  'Chacarita', 'Colegiales', 'Retiro',
-  'San Nicolás', 'Monserrat', 'Puerto Madero',
-].map(normalize));
+const ZONE_PRICES: Record<number, string> = {
+  1: 'Gratis',
+  2: '+$3.000',
+  3: '+$5.000',
+  4: '+$7.000',
+};
+
+const ZONE_MAP: Record<string, number> = {
+  ...Object.fromEntries(['Palermo'].map(normalize).map(k => [k, 1])),
+  ...Object.fromEntries(['Recoleta','Belgrano','Colegiales','Chacarita','Villa Crespo','Almagro','Núñez'].map(normalize).map(k => [k, 2])),
+  ...Object.fromEntries(['Caballito','Coghlan','Villa Urquiza','Saavedra','Paternal','Parque Chas','Villa Ortúzar','Balvanera','San Nicolás','Retiro','Puerto Madero'].map(normalize).map(k => [k, 3])),
+  ...Object.fromEntries(['Flores','Parque Chacabuco','Boedo','San Cristóbal','Monserrat','San Telmo','Constitución','Barracas','Villa del Parque','Villa Devoto','Villa Pueyrredón','Villa General Mitre','Floresta'].map(normalize).map(k => [k, 4])),
+};
 
 interface Feature {
   type: 'Feature';
@@ -30,8 +36,8 @@ interface Props {
 }
 
 export default function MapaCobertura({ hoveredZone, onHoverZone }: Props) {
-  const [features, setFeatures] = useState<Array<{ d: string; name: string; key: string; isCoverage: boolean }>>([]);
-  const [tooltip, setTooltip] = useState<{ name: string; x: number; y: number } | null>(null);
+  const [features, setFeatures] = useState<Array<{ d: string; name: string; key: string; zone: number }>>([]);
+  const [tooltip, setTooltip] = useState<{ name: string; price: string; x: number; y: number } | null>(null);
   const [{ x, y, k }, setTransform] = useState({ x: 0, y: 0, k: 1.3 });
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -105,8 +111,8 @@ export default function MapaCobertura({ hoveredZone, onHoverZone }: Props) {
             const d = pathGen(f.geometry);
             if (!d) return null;
             const key = normalize(rawName);
-            const isCoverage = COVERAGE_NAMES.has(key);
-            return { d, name: rawName, key, isCoverage };
+            const zone = ZONE_MAP[key] ?? 0;
+            return { d, name: rawName, key, zone };
           })
           .filter(Boolean);
 
@@ -115,22 +121,27 @@ export default function MapaCobertura({ hoveredZone, onHoverZone }: Props) {
       .catch(() => {});
   }, []);
 
-  const getFill = (key: string, isCoverage: boolean) => {
-    if (!isCoverage) return 'rgba(59,130,246,0.08)';
-    if (hoveredRef.current === key) return 'rgba(212,167,44,0.6)';
-    return 'rgba(212,167,44,0.25)';
+  const getFill = (zone: number, key: string) => {
+    if (!zone) return 'rgba(59,130,246,0.08)';
+    const base = [0, 0.25, 0.15, 0.08, 0.04][zone];
+    const hover = [0, 0.6, 0.4, 0.2, 0.1][zone];
+    const alpha = hoveredRef.current === key ? hover : base;
+    return `rgba(212,167,44,${alpha})`;
   };
 
-  const getStroke = (key: string, isCoverage: boolean) => {
-    if (!isCoverage) return 'rgba(59,130,246,0.12)';
-    if (hoveredRef.current === key) return 'rgba(212,167,44,0.85)';
-    return 'rgba(212,167,44,0.4)';
+  const getStroke = (zone: number, key: string) => {
+    if (!zone) return 'rgba(59,130,246,0.12)';
+    const base = [0, 0.4, 0.3, 0.15, 0.08][zone];
+    const hover = [0, 0.85, 0.6, 0.35, 0.2][zone];
+    const alpha = hoveredRef.current === key ? hover : base;
+    return `rgba(212,167,44,${alpha})`;
   };
 
-  const getStrokeWidth = (key: string, isCoverage: boolean) => {
-    if (!isCoverage) return 0.5;
-    if (hoveredRef.current === key) return 2;
-    return 1;
+  const getStrokeWidth = (zone: number, key: string) => {
+    if (!zone) return 0.5;
+    const base = [0, 1, 1, 0.7, 0.5][zone];
+    const hover = [0, 2, 1.5, 1.2, 1][zone];
+    return hoveredRef.current === key ? hover : base;
   };
 
   return (
@@ -155,15 +166,15 @@ export default function MapaCobertura({ hoveredZone, onHoverZone }: Props) {
             <path
               key={f.key + i}
               d={f.d}
-              fill={getFill(f.key, f.isCoverage)}
-              stroke={getStroke(f.key, f.isCoverage)}
-              strokeWidth={getStrokeWidth(f.key, f.isCoverage)}
+              fill={getFill(f.zone, f.key)}
+              stroke={getStroke(f.zone, f.key)}
+              strokeWidth={getStrokeWidth(f.zone, f.key)}
               style={{
                 transition: 'all 0.2s ease',
-                cursor: f.isCoverage ? 'pointer' : 'default',
+                cursor: f.zone ? 'pointer' : 'default',
               }}
               onMouseEnter={(e) => {
-                if (!f.isCoverage) return;
+                if (!f.zone) return;
                 onHoverZone(f.name);
                 const rect = (e.currentTarget as SVGPathElement).getBBox();
                 const ctm = (e.currentTarget as SVGPathElement).getScreenCTM();
@@ -175,6 +186,7 @@ export default function MapaCobertura({ hoveredZone, onHoverZone }: Props) {
                   const screenPt = pt.matrixTransform(ctm);
                   setTooltip({
                     name: f.name,
+                    price: ZONE_PRICES[f.zone] ?? '',
                     x: screenPt.x - svgRect.left,
                     y: screenPt.y - svgRect.top,
                   });
@@ -240,7 +252,12 @@ export default function MapaCobertura({ hoveredZone, onHoverZone }: Props) {
             zIndex: 10,
           }}
         >
-          {tooltip.name}
+          <div>{tooltip.name}</div>
+          {tooltip.price && (
+            <div style={{ color: 'var(--accent)', fontSize: '0.7rem', fontWeight: 600, marginTop: '2px' }}>
+              {tooltip.price}
+            </div>
+          )}
         </div>
       )}
     </div>

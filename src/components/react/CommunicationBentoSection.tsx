@@ -7,13 +7,35 @@ import { MapPin, Phone, Camera, Mail, Loader2, ChevronRight } from 'lucide-react
 import { useTurnstile } from '@lib/useTurnstile';
 import MapaCobertura from './MapaCobertura';
 
-const ZONES = [
-  'Nuñez', 'Belgrano', 'Vicente López',
-  'Palermo', 'Recoleta', 'Caballito',
-  'Almagro', 'Balvanera', 'Villa Crespo',
-  'Chacarita', 'Colegiales', 'Retiro',
-  'San Nicolás', 'Monserrat', 'Puerto Madero',
+interface ZoneGroup {
+  name: string;
+  price: string;
+  barrios: string[];
+}
+
+const ZONE_GROUPS: ZoneGroup[] = [
+  {
+    name: 'Palermo',
+    price: 'Gratis',
+    barrios: ['Palermo'],
+  },
+  {
+    name: 'Zona 1',
+    price: '+$3.000',
+    barrios: ['Recoleta', 'Belgrano', 'Colegiales', 'Chacarita', 'Villa Crespo', 'Almagro', 'Núñez'],
+  },
+  {
+    name: 'Zona 2',
+    price: '+$5.000',
+    barrios: ['Caballito', 'Coghlan', 'Villa Urquiza', 'Saavedra', 'Paternal', 'Parque Chas', 'Villa Ortúzar', 'Balvanera', 'San Nicolás', 'Retiro', 'Puerto Madero'],
+  },
+  {
+    name: 'Zona 3',
+    price: '+$7.000',
+    barrios: ['Flores', 'Parque Chacabuco', 'Boedo', 'San Cristóbal', 'Monserrat', 'San Telmo', 'Constitución', 'Barracas', 'Villa del Parque', 'Villa Devoto', 'Villa Pueyrredón', 'Villa General Mitre', 'Floresta'],
+  },
 ];
+
 
 export default function CommunicationBentoSection() {
   const [phone, setPhone] = useState<string | null>(null);
@@ -81,35 +103,59 @@ export default function CommunicationBentoSection() {
                 Zonas de cobertura
               </span>
             </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(100px, 1fr))', gap: '0.5rem' }}>
-              {ZONES.map((zone, i) => {
-                const isHovered = hoveredZone === zone;
-                return (
-                  <motion.button
-                    key={zone}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.04, duration: 0.3, ease: [0.17, 0.67, 0.29, 1] }}
-                    onMouseEnter={() => setHoveredZone(zone)}
-                    onMouseLeave={() => setHoveredZone(null)}
-                    onClick={() => setHoveredZone(zone === hoveredZone ? null : zone)}
-                    style={{
-                      padding: '0.5rem 0.7rem',
-                      borderRadius: '10px',
-                      border: `1px solid ${isHovered ? 'var(--accent)' : 'var(--bg-border)'}`,
-                      background: isHovered ? 'color-mix(in srgb, var(--accent) 15%, transparent)' : 'var(--bg-surface)',
-                      fontSize: '0.82rem',
-                      color: isHovered ? 'var(--accent)' : 'var(--text-secondary)',
-                      textAlign: 'center',
-                      cursor: 'pointer',
-                      transition: 'all 0.2s ease',
-                    }}
-                  >
-                    {zone}
-                  </motion.button>
-                );
-              })}
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              {ZONE_GROUPS.map((group, gi) => (
+                <motion.div
+                  key={group.name}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: gi * 0.08, duration: 0.3 }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.4rem' }}>
+                    <span style={{ fontWeight: 600, fontSize: '0.78rem', color: 'var(--text-primary)' }}>
+                      {group.name}
+                    </span>
+                    <span style={{
+                      fontSize: '0.7rem',
+                      fontWeight: 600,
+                      color: group.price === 'Gratis' ? 'var(--gold-500)' : 'var(--text-muted)',
+                      background: group.price === 'Gratis' ? 'var(--accent-muted)' : 'transparent',
+                      padding: group.price === 'Gratis' ? '2px 8px' : '0',
+                      borderRadius: '6px',
+                    }}>
+                      {group.price}
+                    </span>
+                  </div>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem' }}>
+                    {group.barrios.map((barrio) => {
+                      const isHovered = hoveredZone === barrio;
+                      return (
+                        <motion.button
+                          key={barrio}
+                          whileHover={{ scale: 1.04 }}
+                          whileTap={{ scale: 0.96 }}
+                          onMouseEnter={() => setHoveredZone(barrio)}
+                          onMouseLeave={() => setHoveredZone(null)}
+                          onClick={() => setHoveredZone(barrio === hoveredZone ? null : barrio)}
+                          style={{
+                            padding: '0.3rem 0.6rem',
+                            borderRadius: '8px',
+                            border: `1px solid ${isHovered ? 'var(--accent)' : 'var(--bg-border)'}`,
+                            background: isHovered ? 'color-mix(in srgb, var(--accent) 15%, transparent)' : 'var(--bg-surface)',
+                            fontSize: '0.75rem',
+                            color: isHovered ? 'var(--accent)' : 'var(--text-secondary)',
+                            cursor: 'pointer',
+                            transition: 'all 0.2s ease',
+                          }}
+                        >
+                          {barrio}
+                        </motion.button>
+                      );
+                    })}
+                  </div>
+                </motion.div>
+              ))}
             </div>
             <p className="mono" style={{ marginTop: '1rem', color: 'var(--text-muted)', fontSize: '0.7rem' }}>
               ¿Otra zona? Consultame sin compromiso

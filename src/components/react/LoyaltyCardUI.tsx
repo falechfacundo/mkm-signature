@@ -38,8 +38,8 @@ export default function LoyaltyCardUI() {
         padding: '2rem 1.25rem 4rem',
       }}
     >
-      <div style={{ maxWidth: 420, margin: '0 auto' }}>
-        <div style={{ marginBottom: '1.5rem' }}>
+      <div className="loyalty-dashboard">
+        <div className="loyalty-header" style={{ gridColumn: '1 / -1' }}>
           <span style={{ color: 'var(--accent)', fontWeight: 700, fontSize: '0.85rem', letterSpacing: '0.04em' }}>
             {SITE.name}
           </span>
@@ -48,14 +48,13 @@ export default function LoyaltyCardUI() {
           </p>
         </div>
 
-        <div style={{
+        <div className="loyalty-card" style={{
           border: '1px solid var(--bg-border)',
           borderRadius: '24px',
           padding: '1.75rem 1.5rem',
           background: 'linear-gradient(135deg, rgba(20,30,54,0.6), rgba(14,22,40,0.6))',
           position: 'relative',
           overflow: 'hidden',
-          marginBottom: '1rem',
         }}>
           <div style={{
             position: 'absolute', inset: 0, pointerEvents: 'none',
@@ -141,7 +140,7 @@ export default function LoyaltyCardUI() {
               })}
             </div>
 
-            <div
+            <div className="loyalty-cta"
               style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
                 marginTop: '1.5rem',
@@ -161,108 +160,133 @@ export default function LoyaltyCardUI() {
           </div>
         </div>
 
-        {nextMilestone && (
-          <div style={{
-            border: '1px solid rgba(212,167,44,0.2)',
-            borderRadius: '18px',
-            padding: '1.25rem 1.25rem',
-            background: 'rgba(212,167,44,0.04)',
-            marginBottom: '1rem',
-          }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <div style={{
-                width: 40, height: 40, borderRadius: '12px',
-                background: 'rgba(212,167,44,0.1)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                flexShrink: 0,
-              }}>
-                <nextMilestone.icon size={18} color="var(--accent)" />
-              </div>
-              <div>
-                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-                  Próximo beneficio
-                </div>
-                <div style={{ fontSize: '0.82rem', color: 'var(--text-primary)', fontWeight: 600, marginTop: '1px' }}>
-                  Te faltan {nextMilestone.count - PROGRESS} cortes para: {nextMilestone.emoji} {nextMilestone.label}
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        <div style={{
-          border: '1px solid var(--bg-border)',
-          borderRadius: '18px',
-          padding: '1.25rem 1.25rem',
-          background: 'linear-gradient(135deg, rgba(20,30,54,0.4), rgba(14,22,40,0.4))',
-          marginBottom: '1rem',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '1rem' }}>
-            <Calendar size={14} color="var(--text-muted)" />
-            <span style={{ color: 'var(--text-muted)', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
-              Historial de servicios
-            </span>
-          </div>
-
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
-            {TIMELINE.map((entry) => (
-              <div key={entry.num} style={{
-                display: 'flex', alignItems: 'center', gap: '0.75rem',
-                paddingBottom: '0.65rem',
-                borderBottom: entry.num > 1 ? '1px solid var(--bg-border)' : 'none',
-              }}>
+        <div className="loyalty-sidebar">
+          {nextMilestone && (
+            <div style={{
+              border: '1px solid rgba(212,167,44,0.2)',
+              borderRadius: '18px',
+              padding: '1.25rem',
+              background: 'rgba(212,167,44,0.04)',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                 <div style={{
-                  width: 30, height: 30, borderRadius: '8px',
-                  background: 'rgba(255,255,255,0.04)',
+                  width: 40, height: 40, borderRadius: '12px',
+                  background: 'rgba(212,167,44,0.1)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   flexShrink: 0,
-                  fontSize: '0.65rem', fontWeight: 700, color: 'var(--text-muted)',
                 }}>
-                  #{entry.num}
+                  <nextMilestone.icon size={18} color="var(--accent)" />
                 </div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--text-primary)', fontWeight: 500 }}>
-                    {entry.label}
+                <div>
+                  <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                    Próximo beneficio
                   </div>
-                  <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', marginTop: '1px' }}>
-                    {entry.time}
+                  <div style={{ fontSize: '0.82rem', color: 'var(--text-primary)', fontWeight: 600, marginTop: '1px' }}>
+                    Te faltan {nextMilestone.count - PROGRESS} cortes para: {nextMilestone.emoji} {nextMilestone.label}
                   </div>
                 </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div style={{
-          border: '1px solid var(--bg-border)',
-          borderRadius: '18px',
-          padding: '1.25rem 1.25rem',
-          background: 'linear-gradient(135deg, rgba(20,30,54,0.4), rgba(14,22,40,0.4))',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div>
-              <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.15rem' }}>
-                Tu nivel
-              </div>
-              <div style={{ fontSize: '0.95rem', color: 'var(--text-primary)', fontWeight: 700 }}>
-                {currentBadge.label}
-              </div>
-              <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
-                {currentBadge.desc}
               </div>
             </div>
-            <div style={{
-              width: 44, height: 44, borderRadius: '50%',
-              border: '2px solid var(--accent)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              background: 'rgba(212,167,44,0.1)',
-              fontSize: '1.1rem', fontWeight: 800, color: 'var(--accent)',
-            }}>
-              {PROGRESS}
+          )}
+
+          <div style={{
+            border: '1px solid var(--bg-border)',
+            borderRadius: '18px',
+            padding: '1.25rem',
+            background: 'linear-gradient(135deg, rgba(20,30,54,0.4), rgba(14,22,40,0.4))',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', marginBottom: '1rem' }}>
+              <Calendar size={14} color="var(--text-muted)" />
+              <span style={{ color: 'var(--text-muted)', fontSize: '0.7rem', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+                Historial de servicios
+              </span>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.65rem' }}>
+              {TIMELINE.map((entry) => (
+                <div key={entry.num} style={{
+                  display: 'flex', alignItems: 'center', gap: '0.75rem',
+                  paddingBottom: '0.65rem',
+                  borderBottom: entry.num > 1 ? '1px solid var(--bg-border)' : 'none',
+                }}>
+                  <div style={{
+                    width: 30, height: 30, borderRadius: '8px',
+                    background: 'rgba(255,255,255,0.04)',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    flexShrink: 0,
+                    fontSize: '0.65rem', fontWeight: 700, color: 'var(--text-muted)',
+                  }}>
+                    #{entry.num}
+                  </div>
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontSize: '0.8rem', color: 'var(--text-primary)', fontWeight: 500 }}>
+                      {entry.label}
+                    </div>
+                    <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', marginTop: '1px' }}>
+                      {entry.time}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div style={{
+            border: '1px solid var(--bg-border)',
+            borderRadius: '18px',
+            padding: '1.25rem',
+            background: 'linear-gradient(135deg, rgba(20,30,54,0.4), rgba(14,22,40,0.4))',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <div>
+                <div style={{ fontSize: '0.7rem', color: 'var(--text-muted)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: '0.15rem' }}>
+                  Tu nivel
+                </div>
+                <div style={{ fontSize: '0.95rem', color: 'var(--text-primary)', fontWeight: 700 }}>
+                  {currentBadge.label}
+                </div>
+                <div style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', marginTop: '2px' }}>
+                  {currentBadge.desc}
+                </div>
+              </div>
+              <div style={{
+                width: 44, height: 44, borderRadius: '50%',
+                border: '2px solid var(--accent)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                background: 'rgba(212,167,44,0.1)',
+                fontSize: '1.1rem', fontWeight: 800, color: 'var(--accent)',
+              }}>
+                {PROGRESS}
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      <style>{`
+        .loyalty-dashboard {
+          max-width: 420px;
+          margin: 0 auto;
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        .loyalty-sidebar {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+        }
+
+        @media (min-width: 900px) {
+          .loyalty-dashboard {
+            max-width: 820px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: start;
+          }
+        }
+      `}</style>
     </main>
   );
 }

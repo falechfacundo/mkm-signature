@@ -55,6 +55,19 @@ export default function Footer() {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', textAlign: 'right' }}>
             <a
+              href="/blog"
+              style={{
+                color: 'var(--text-secondary)',
+                textDecoration: 'none',
+                fontSize: '0.85rem',
+                fontWeight: 500,
+              }}
+              onMouseOver={(e) => e.currentTarget.style.color = 'var(--accent)'}
+              onMouseOut={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
+            >
+              Blog
+            </a>
+            <a
               href={SITE.instagramUrl}
               target="_blank"
               rel="noopener noreferrer"

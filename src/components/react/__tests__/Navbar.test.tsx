@@ -14,17 +14,20 @@ describe('Navbar', () => {
     render(<Navbar />);
     expect(screen.getByText('Servicios')).toBeInTheDocument();
     expect(screen.getByText('Cobertura')).toBeInTheDocument();
+    expect(screen.getByText('Blog')).toBeInTheDocument();
     expect(screen.getByText('FAQ')).toBeInTheDocument();
   });
 
   it('nav links have correct hrefs', () => {
     render(<Navbar />);
     const servicios = screen.getByText('Servicios').closest('a');
-    expect(servicios).toHaveAttribute('href', '#servicios');
+    expect(servicios).toHaveAttribute('href', '/#servicios');
     const cobertura = screen.getByText('Cobertura').closest('a');
-    expect(cobertura).toHaveAttribute('href', '#comunicacion');
+    expect(cobertura).toHaveAttribute('href', '/#comunicacion');
+    const blog = screen.getByText('Blog').closest('a');
+    expect(blog).toHaveAttribute('href', '/blog');
     const faq = screen.getByText('FAQ').closest('a');
-    expect(faq).toHaveAttribute('href', '#faq');
+    expect(faq).toHaveAttribute('href', '/#faq');
   });
 
   it('renders the reservar button', () => {

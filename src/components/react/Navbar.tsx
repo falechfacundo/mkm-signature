@@ -5,9 +5,10 @@ import { useRef } from 'react';
 import { SITE } from '@config/site';
 
 const LINKS = [
-  { label: 'Servicios', href: '#servicios' },
-  { label: 'Cobertura', href: '#comunicacion' },
-  { label: 'FAQ', href: '#faq' },
+  { label: 'Servicios', href: '/#servicios' },
+  { label: 'Cobertura', href: '/#comunicacion' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'FAQ', href: '/#faq' },
 ];
 
 export default function Navbar() {

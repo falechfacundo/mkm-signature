@@ -1,0 +1,45 @@
+---
+import { SITE } from '@config/site';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+  url: string;
+}
+
+const { post, url } = Astro.props;
+const { title, description, pubDate, updatedDate, author, cover, coverAlt, tags } = post.data;
+
+const coverUrl = cover?.src ? new URL(cover.src, SITE.url).toString() : undefined;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'BlogPosting',
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': url,
+  },
+  headline: title,
+  description,
+  image: coverUrl ? [coverUrl] : undefined,
+  datePublished: pubDate.toISOString(),
+  dateModified: (updatedDate ?? pubDate).toISOString(),
+  author: {
+    '@type': 'Organization',
+    name: author,
+    url: SITE.url,
+  },
+  publisher: {
+    '@type': 'Organization',
+    name: SITE.name,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${SITE.url}/logo-corona-dorado.svg`,
+    },
+  },
+  keywords: tags.join(', '),
+  inLanguage: 'es-AR',
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} is:inline />

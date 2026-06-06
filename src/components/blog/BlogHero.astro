@@ -1,0 +1,165 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { title, description, pubDate, updatedDate, author, cover, coverAlt, coverCredit, category, readingTime } = post.data;
+
+const dateFormatted = pubDate.toLocaleDateString('es-AR', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const updatedFormatted = updatedDate?.toLocaleDateString('es-AR', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const categoryLabels: Record<string, string> = {
+  tendencias: 'Tendencias',
+  cuidado: 'Cuidado',
+  estilo: 'Estilo',
+  domicilio: 'A domicilio',
+};
+---
+
+<header class="blog-hero">
+  <div class="blog-hero__container">
+    <nav class="blog-hero__breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Inicio</a>
+      <span aria-hidden="true">/</span>
+      <a href="/blog">Blog</a>
+    </nav>
+
+    <span class="blog-hero__category">{categoryLabels[category] ?? category}</span>
+    <h1 class="blog-hero__title">{title}</h1>
+    <p class="blog-hero__excerpt">{description}</p>
+
+    <div class="blog-hero__meta">
+      <span>Por <strong>{author}</strong></span>
+      <span aria-hidden="true">·</span>
+      <time datetime={pubDate.toISOString()}>{dateFormatted}</time>
+      {readingTime && (
+        <>
+          <span aria-hidden="true">·</span>
+          <span>{readingTime} min de lectura</span>
+        </>
+      )}
+      {updatedDate && (
+        <>
+          <span aria-hidden="true">·</span>
+          <span>Actualizado: <time datetime={updatedDate.toISOString()}>{updatedFormatted}</time></span>
+        </>
+      )}
+    </div>
+  </div>
+
+  {cover && (
+    <figure class="blog-hero__cover">
+      <Image
+        src={cover}
+        alt={coverAlt}
+        widths={[800, 1200, 1600, 2000]}
+        sizes="(max-width: 1200px) 100vw, 1200px"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+        format="webp"
+        quality={85}
+      />
+      {coverCredit && <figcaption>Foto: {coverCredit}</figcaption>}
+    </figure>
+  )}
+</header>
+
+<style>
+  .blog-hero {
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--bg-border);
+  }
+  .blog-hero__container {
+    max-width: 52rem;
+    margin: 0 auto;
+    padding: 7rem 1.5rem 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .blog-hero__breadcrumb {
+    display: flex;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+  }
+  .blog-hero__breadcrumb a {
+    color: var(--text-secondary);
+    text-decoration: none;
+  }
+  .blog-hero__breadcrumb a:hover {
+    color: var(--accent);
+  }
+  .blog-hero__category {
+    display: inline-block;
+    align-self: flex-start;
+    background: var(--accent-muted);
+    color: var(--accent);
+    padding: 0.35rem 0.85rem;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+  .blog-hero__title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.1;
+    margin: 0;
+    color: var(--text-primary);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+  .blog-hero__excerpt {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin: 0;
+    max-width: 44rem;
+  }
+  .blog-hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+  }
+  .blog-hero__meta strong {
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+  .blog-hero__cover {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 0 1.5rem 3rem;
+    margin-top: 1rem;
+  }
+  .blog-hero__cover :global(img) {
+    width: 100%;
+    height: auto;
+    border-radius: 16px;
+    border: 1px solid var(--bg-border);
+    display: block;
+  }
+  .blog-hero__cover figcaption {
+    margin-top: 0.75rem;
+    text-align: right;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+  }
+</style>

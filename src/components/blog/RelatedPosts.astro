@@ -1,0 +1,68 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BlogCard from './BlogCard.astro';
+
+interface Props {
+  currentPost: CollectionEntry<'blog'>;
+  allPosts: CollectionEntry<'blog'>[];
+  max?: number;
+}
+
+const { currentPost, allPosts, max = 3 } = Astro.props;
+const { tags, category } = currentPost.data;
+
+const otherPosts = allPosts.filter((p) => p.id !== currentPost.id);
+
+const scored = otherPosts
+  .map((post) => {
+    let score = 0;
+    if (post.data.category === category) score += 3;
+    const sharedTags = post.data.tags.filter((t) => tags.includes(t)).length;
+    score += sharedTags * 2;
+    if (post.data.service && post.data.service === currentPost.data.service) score += 1;
+    return { post, score };
+  })
+  .filter(({ score }) => score > 0)
+  .sort((a, b) => b.score - a.score)
+  .slice(0, max);
+
+const related = scored.length > 0
+  ? scored.map(({ post }) => post)
+  : otherPosts.slice(0, max);
+---
+
+{related.length > 0 && (
+  <section class="related-posts" aria-label="Posts relacionados">
+    <div class="related-posts__container">
+      <h2 class="related-posts__title">También te puede interesar</h2>
+      <div class="related-posts__grid">
+        {related.map((post) => <BlogCard post={post} />)}
+      </div>
+    </div>
+  </section>
+)}
+
+<style>
+  .related-posts {
+    background: var(--bg-primary);
+    border-top: 1px solid var(--bg-border);
+    padding: 4rem 0;
+    margin-top: 4rem;
+  }
+  .related-posts__container {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+  .related-posts__title {
+    font-size: 1.6rem;
+    margin: 0 0 2rem;
+    color: var(--text-primary);
+    font-weight: 700;
+  }
+  .related-posts__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+</style>

@@ -1,0 +1,167 @@
+---
+import { getCollection } from 'astro:content';
+import PageLayout from '@/layouts/PageLayout.astro';
+import BlogCard from '@components/blog/BlogCard.astro';
+import { SITE } from '@config/site';
+import { CATEGORIES } from '@lib/blog-categories';
+
+export const prerender = true;
+
+const allPosts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const activeCategory = Astro.url.searchParams.get('categoria') ?? 'all';
+
+const filteredPosts = activeCategory === 'all'
+  ? allPosts
+  : allPosts.filter((p) => p.data.category === activeCategory);
+
+const canonical = new URL('/blog', Astro.site ?? SITE.url).toString();
+const breadcrumbs = [
+  { name: 'Inicio', url: SITE.url },
+  { name: 'Blog', url: '/blog' },
+];
+---
+
+<PageLayout
+  title="Blog de Barbería"
+  description="Consejos, tendencias y guías de barbería a domicilio en Buenos Aires. Tips de cuidado, cortes tendencia y todo lo que necesitás para verte bien."
+  canonical={canonical}
+  breadcrumbs={breadcrumbs}
+>
+  <section class="blog-index">
+    <div class="blog-index__header">
+      <span class="blog-index__eyebrow">{SITE.name}</span>
+      <h1 class="blog-index__title">Blog de Barbería</h1>
+      <p class="blog-index__subtitle">
+        Consejos prácticos, tendencias y guías honestas para que tu pelo y tu barba luzcan impecables.
+        Escrito por barberos profesionales que atienden a domicilio en CABA y Zona Norte.
+      </p>
+    </div>
+
+    <nav class="blog-index__filters" aria-label="Filtrar por categoría">
+      <a
+        href="/blog"
+        class:list={["blog-index__filter", activeCategory === 'all' && "blog-index__filter--active"]}
+      >
+        Todos
+      </a>
+      {CATEGORIES.map((cat) => (
+        <a
+          href={`/blog?categoria=${cat.id}`}
+          class:list={["blog-index__filter", activeCategory === cat.id && "blog-index__filter--active"]}
+        >
+          {cat.label}
+        </a>
+      ))}
+    </nav>
+
+    {filteredPosts.length === 0 ? (
+      <div class="blog-index__empty">
+        <p>No hay posts en esta categoría todavía. ¡Pronto habrá más contenido!</p>
+        <a href="/blog">Ver todos los posts</a>
+      </div>
+    ) : (
+      <div class="blog-index__grid">
+        {filteredPosts.map((post) => <BlogCard post={post} />)}
+      </div>
+    )}
+
+    <p class="blog-index__count">
+      {filteredPosts.length} {filteredPosts.length === 1 ? 'artículo' : 'artículos'}
+      {activeCategory !== 'all' && ` en ${CATEGORIES.find(c => c.id === activeCategory)?.label}`}
+    </p>
+  </section>
+</PageLayout>
+
+<style>
+  .blog-index {
+    max-width: 72rem;
+    margin: 0 auto;
+    padding: 8rem 1.5rem 4rem;
+  }
+  .blog-index__header {
+    max-width: 44rem;
+    margin-bottom: 3rem;
+  }
+  .blog-index__eyebrow {
+    display: inline-block;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.82rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+  }
+  .blog-index__title {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 800;
+    line-height: 1.05;
+    margin: 0 0 1.25rem;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+  }
+  .blog-index__subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    line-height: 1.65;
+    margin: 0;
+  }
+  .blog-index__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 2.5rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--bg-border);
+  }
+  .blog-index__filter {
+    display: inline-block;
+    padding: 0.5rem 1.1rem;
+    border: 1px solid var(--bg-border);
+    border-radius: 999px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+  }
+  .blog-index__filter:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .blog-index__filter--active {
+    background: var(--accent);
+    color: #080c14;
+    border-color: var(--accent);
+    font-weight: 600;
+  }
+  .blog-index__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  .blog-index__count {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-top: 2.5rem;
+    text-align: center;
+  }
+  .blog-index__empty {
+    text-align: center;
+    padding: 4rem 1rem;
+    color: var(--text-secondary);
+  }
+  .blog-index__empty a {
+    display: inline-block;
+    margin-top: 1rem;
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  @media (max-width: 640px) {
+    .blog-index {
+      padding: 7rem 1.25rem 3rem;
+    }
+  }
+</style>

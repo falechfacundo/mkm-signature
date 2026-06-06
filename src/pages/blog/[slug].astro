@@ -1,0 +1,81 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+import PageLayout from '@/layouts/PageLayout.astro';
+import BlogHero from '@components/blog/BlogHero.astro';
+import BlogLayout from '@components/blog/BlogLayout.astro';
+import BlogCTA from '@components/blog/BlogCTA.astro';
+import ArticleSchema from '@components/blog/ArticleSchema.astro';
+import RelatedPosts from '@components/blog/RelatedPosts.astro';
+import { SITE } from '@config/site';
+import readingTimeLib from 'reading-time';
+import { CATEGORY_LABELS } from '@lib/blog-categories';
+
+export const prerender = true;
+
+export const getStaticPaths = (async () => {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id.replace(/\.(md|mdx)$/, '') },
+    props: { post, allPosts: posts },
+  }));
+}) satisfies GetStaticPaths;
+
+const { post, allPosts } = Astro.props;
+const { Content, headings } = await render(post);
+
+const slug = post.id.replace(/\.(md|mdx)$/, '');
+const url = new URL(`/blog/${slug}`, Astro.site ?? SITE.url).toString();
+const canonical = url;
+
+const rt = readingTimeLib(post.body ?? '');
+const readingTime = Math.max(1, Math.round(rt.minutes));
+
+const breadcrumbs = [
+  { name: 'Inicio', url: SITE.url },
+  { name: 'Blog', url: '/blog' },
+  { name: post.data.title, url: `/blog/${slug}` },
+];
+---
+
+<PageLayout
+  title={post.data.title}
+  description={post.data.description}
+  canonical={canonical}
+  ogImage={post.data.cover?.src ? new URL(post.data.cover.src, SITE.url).toString() : undefined}
+  breadcrumbs={breadcrumbs}
+>
+  <ArticleSchema post={post} url={url} />
+
+  <BlogHero post={post} />
+
+  <BlogLayout post={post}>
+    <Content />
+  </BlogLayout>
+
+  <BlogCTA service={post.data.service} />
+
+  <RelatedPosts currentPost={post} allPosts={allPosts} />
+
+  <nav class="post-navigation" aria-label="Navegación del blog">
+    <a href="/blog" class="post-navigation__link">← Volver al blog</a>
+  </nav>
+</PageLayout>
+
+<style>
+  .post-navigation {
+    max-width: 52rem;
+    margin: 0 auto 4rem;
+    padding: 2rem 1.5rem 0;
+    border-top: 1px solid var(--bg-border);
+  }
+  .post-navigation__link {
+    color: var(--accent);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+  .post-navigation__link:hover {
+    text-decoration: underline;
+  }
+</style>

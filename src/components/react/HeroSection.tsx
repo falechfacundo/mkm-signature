@@ -113,6 +113,11 @@ export default function HeroSection({ params, service }: Props) {
         transform: translateY(10px) scale(0.98);
         filter: blur(8px);
       }
+      @media (max-width: 768px) {
+        .hero-logo-desktop {
+          display: none !important;
+        }
+      }
     `}</style>
     <section
       id="hero"
@@ -169,6 +174,7 @@ export default function HeroSection({ params, service }: Props) {
 
       <motion.div
         aria-hidden
+        className="hero-logo-desktop"
         style={{
           position: 'absolute',
           right: '-290px',

@@ -118,12 +118,17 @@ export default function HeroSection({ params, service }: Props) {
           display: none !important;
         }
         .hero-video {
-          opacity: 0.55;
+          opacity: 0.85;
         }
         .hero-video-overlay {
-          background:
-            linear-gradient(180deg, rgba(8,12,20,0.55) 0%, rgba(8,12,20,0.78) 60%, rgba(8,12,20,0.92) 100%),
-            radial-gradient(ellipse 60% 50% at 50% 50%, transparent 0%, rgba(8,12,20,0.5) 80%);
+          background: linear-gradient(180deg,
+            rgba(8,12,20,0.25) 0%,
+            rgba(8,12,20,0.05) 35%,
+            rgba(8,12,20,0.05) 70%,
+            rgba(8,12,20,0.55) 100%);
+        }
+        .hero-text-shadow {
+          text-shadow: 0 2px 18px rgba(0,0,0,0.7);
         }
       }
       .hero-video {
@@ -134,7 +139,7 @@ export default function HeroSection({ params, service }: Props) {
         object-fit: cover;
         object-position: center;
         z-index: 0;
-        opacity: 0.7;
+        opacity: 0.95;
         pointer-events: none;
         will-change: transform;
       }
@@ -143,9 +148,14 @@ export default function HeroSection({ params, service }: Props) {
         inset: 0;
         z-index: 1;
         pointer-events: none;
-        background:
-          linear-gradient(180deg, rgba(8,12,20,0.5) 0%, rgba(8,12,20,0.72) 55%, rgba(8,12,20,0.88) 100%),
-          radial-gradient(ellipse 60% 50% at 50% 50%, transparent 0%, rgba(8,12,20,0.35) 80%);
+        background: linear-gradient(180deg,
+          rgba(8,12,20,0.15) 0%,
+          rgba(8,12,20,0) 40%,
+          rgba(8,12,20,0) 75%,
+          rgba(8,12,20,0.35) 100%);
+      }
+      .hero-text-shadow {
+        text-shadow: 0 2px 24px rgba(0,0,0,0.55);
       }
     `}</style>
     <section
@@ -274,7 +284,7 @@ export default function HeroSection({ params, service }: Props) {
             </span>
           </motion.div>
 
-          <h1 style={{ fontSize: 'clamp(2.8rem,7vw,5.5rem)', lineHeight: 1.02, margin: 0, perspective: '800px' }}>
+          <h1 className="hero-text-shadow" style={{ fontSize: 'clamp(2.8rem,7vw,5.5rem)', lineHeight: 1.02, margin: 0, perspective: '800px' }}>
             {words.map((word, i) => (
               <motion.span
                 key={word}
@@ -309,6 +319,7 @@ export default function HeroSection({ params, service }: Props) {
             initial={{ opacity: 0, y: 30, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.55, delay: 0.5, ease: [0.17, 0.67, 0.29, 1] }}
+            className="hero-text-shadow"
             style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', lineHeight: 1.7, maxWidth: '40rem', margin: 0 }}
           >
             {service.subheadline}

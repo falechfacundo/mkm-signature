@@ -155,7 +155,10 @@ export default function HeroSection({ params, service }: Props) {
           rgba(8,12,20,0.35) 100%);
       }
       .hero-text-shadow {
-        text-shadow: 0 2px 24px rgba(0,0,0,0.55);
+        text-shadow:
+          0 1px 2px rgba(0,0,0,0.7),
+          0 2px 12px rgba(0,0,0,0.6),
+          0 4px 32px rgba(0,0,0,0.45);
       }
     `}</style>
     <section
@@ -279,12 +282,12 @@ export default function HeroSection({ params, service }: Props) {
             transition={{ duration: 0.5, ease: [0.17, 0.67, 0.29, 1] }}
             style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}
           >
-            <span style={{ color: 'var(--accent)', textTransform: 'uppercase', letterSpacing: '0.12em', fontSize: '0.82rem' }}>
+            <span className="hero-text-shadow" style={{ color: '#ffffff', textTransform: 'uppercase', letterSpacing: '0.12em', fontSize: '0.82rem', fontWeight: 600 }}>
               {SITE.name}
             </span>
           </motion.div>
 
-          <h1 className="hero-text-shadow" style={{ fontSize: 'clamp(2.8rem,7vw,5.5rem)', lineHeight: 1.02, margin: 0, perspective: '800px' }}>
+          <h1 className="hero-text-shadow" style={{ fontSize: 'clamp(2.8rem,7vw,5.5rem)', lineHeight: 1.02, margin: 0, perspective: '800px', color: '#ffffff' }}>
             {words.map((word, i) => (
               <motion.span
                 key={word}
@@ -320,7 +323,7 @@ export default function HeroSection({ params, service }: Props) {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.55, delay: 0.5, ease: [0.17, 0.67, 0.29, 1] }}
             className="hero-text-shadow"
-            style={{ color: 'var(--text-secondary)', fontSize: '1.2rem', lineHeight: 1.7, maxWidth: '40rem', margin: 0 }}
+            style={{ color: '#ffffff', fontSize: '1.2rem', lineHeight: 1.7, maxWidth: '40rem', margin: 0, fontWeight: 400 }}
           >
             {service.subheadline}
           </motion.p>
@@ -335,15 +338,16 @@ export default function HeroSection({ params, service }: Props) {
               <motion.span
                 key={badge}
                 whileHover={{ scale: 1.05, borderColor: 'var(--accent)' }}
-                className="mono"
+                className="mono hero-text-shadow"
                 style={{
-                  border: '1px solid var(--bg-border)',
-                  background: 'color-mix(in srgb, var(--accent) 6%, var(--bg-surface))',
-                  color: 'var(--text-secondary)',
+                  border: '1px solid rgba(255,255,255,0.18)',
+                  background: 'rgba(8,12,20,0.55)',
+                  color: '#ffffff',
                   borderRadius: '999px',
                   padding: '0.35rem 0.85rem',
                   fontSize: '0.7rem',
                   cursor: 'default',
+                  backdropFilter: 'blur(4px)',
                 }}
               >
                 {badge}

@@ -131,26 +131,55 @@ export default function ProcessSection() {
                     border: '1px solid var(--bg-border)',
                     background: 'linear-gradient(135deg, rgba(20,30,54,0.6), rgba(14,22,40,0.6))',
                     backdropFilter: 'blur(8px)',
+                    display: 'flex',
+                    gap: '1.25rem',
+                    alignItems: 'flex-start',
+                    flexDirection: 'row',
                   }}
+                  className="process-step-card"
                 >
-                  <div className="flex flex-col md:flex-row md:items-center md:justify-between" style={{ marginBottom: '0.4rem' }}>
-                    <h3 style={{ margin: 0, fontSize: '1.15rem', color: 'var(--text-primary)' }}>{step.title}</h3>
-                    <span
-                      className="mono"
-                      style={{
-                        fontSize: '0.65rem',
-                        color: 'var(--accent)',
-                        background: 'color-mix(in srgb, var(--accent) 12%, transparent)',
-                        border: '1px solid color-mix(in srgb, var(--accent) 25%, transparent)',
-                        borderRadius: '999px',
-                        padding: '0.2rem 0.6rem',
-                        alignSelf: 'flex-start',
-                      }}
-                    >
-                      {step.duration}
-                    </span>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div className="flex flex-col md:flex-row md:items-center md:justify-between" style={{ marginBottom: '0.4rem' }}>
+                      <h3 style={{ margin: 0, fontSize: '1.15rem', color: 'var(--text-primary)' }}>{step.title}</h3>
+                      <span
+                        className="mono"
+                        style={{
+                          fontSize: '0.65rem',
+                          color: 'var(--accent)',
+                          background: 'color-mix(in srgb, var(--accent) 12%, transparent)',
+                          border: '1px solid color-mix(in srgb, var(--accent) 25%, transparent)',
+                          borderRadius: '999px',
+                          padding: '0.2rem 0.6rem',
+                          alignSelf: 'flex-start',
+                        }}
+                      >
+                        {step.duration}
+                      </span>
+                    </div>
+                    <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: 1.6 }}>{step.desc}</p>
                   </div>
-                  <p style={{ margin: 0, color: 'var(--text-secondary)', fontSize: '0.92rem', lineHeight: 1.6 }}>{step.desc}</p>
+                  <div
+                    aria-hidden
+                    style={{
+                      width: '80px',
+                      height: '80px',
+                      flexShrink: 0,
+                      borderRadius: '12px',
+                      overflow: 'hidden',
+                      border: '1px solid var(--bg-border)',
+                      background: 'var(--bg-surface)',
+                      position: 'relative',
+                    }}
+                    className="process-step-thumb"
+                  >
+                    <img
+                      src={step.image}
+                      alt={step.imageAlt}
+                      loading={i === 0 ? 'eager' : 'lazy'}
+                      decoding="async"
+                      style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+                    />
+                  </div>
                 </motion.div>
               </motion.div>
             ))}

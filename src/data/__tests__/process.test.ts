@@ -19,6 +19,17 @@ describe('PROCESS_STEPS', () => {
     }
   });
 
+  it('each step has image and imageAlt', () => {
+    for (const step of PROCESS_STEPS) {
+      expect(step).toHaveProperty('image');
+      expect(step).toHaveProperty('imageAlt');
+      expect(typeof step.image).toBe('string');
+      expect(typeof step.imageAlt).toBe('string');
+      expect(step.image).toMatch(/^\/images\/process\/step-\d+\.webp$/);
+      expect(step.imageAlt.length).toBeGreaterThan(0);
+    }
+  });
+
   it('steps are numbered sequentially', () => {
     expect(PROCESS_STEPS[0].number).toBe('01');
     expect(PROCESS_STEPS[1].number).toBe('02');

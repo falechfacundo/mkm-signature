@@ -6,6 +6,7 @@ import { Check, Loader2 } from 'lucide-react';
 import { SERVICES } from '@config/services';
 import { DELIVERABLES } from '@data/deliverables';
 import { useTurnstile } from '@lib/useTurnstile';
+import BeforeAfterGallery from '@components/react/BeforeAfterGallery';
 import type { ServiceConfig } from '@config/services';
 
 interface Props {
@@ -208,6 +209,8 @@ export default function DeliverablesSection({ service: _active }: Props) {
             );
           })}
         </div>
+
+        <BeforeAfterGallery />
       </div>
     </section>
   );

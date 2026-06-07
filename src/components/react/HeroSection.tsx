@@ -117,6 +117,35 @@ export default function HeroSection({ params, service }: Props) {
         .hero-logo-desktop {
           display: none !important;
         }
+        .hero-video {
+          opacity: 0.55;
+        }
+        .hero-video-overlay {
+          background:
+            linear-gradient(180deg, rgba(8,12,20,0.55) 0%, rgba(8,12,20,0.78) 60%, rgba(8,12,20,0.92) 100%),
+            radial-gradient(ellipse 60% 50% at 50% 50%, transparent 0%, rgba(8,12,20,0.5) 80%);
+        }
+      }
+      .hero-video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        z-index: 0;
+        opacity: 0.7;
+        pointer-events: none;
+        will-change: transform;
+      }
+      .hero-video-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        background:
+          linear-gradient(180deg, rgba(8,12,20,0.5) 0%, rgba(8,12,20,0.72) 55%, rgba(8,12,20,0.88) 100%),
+          radial-gradient(ellipse 60% 50% at 50% 50%, transparent 0%, rgba(8,12,20,0.35) 80%);
       }
     `}</style>
     <section
@@ -127,9 +156,23 @@ export default function HeroSection({ params, service }: Props) {
         position: 'relative',
         minHeight: '100vh',
         overflow: 'hidden',
-        background: 'radial-gradient(ellipse 80% 60% at 50% 0%, rgba(212,167,44,0.06) 0%, transparent 60%), var(--bg-primary)',
+        background: 'var(--bg-primary)',
       }}
     >
+      <video
+        aria-hidden="true"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        poster="/videos/hero-poster.jpg"
+        className="hero-video"
+      >
+        <source src="/videos/hero.webm" type="video/webm" />
+        <source src="/videos/hero.mp4" type="video/mp4" />
+      </video>
+      <div aria-hidden="true" className="hero-video-overlay" />
       <motion.div style={{ position: 'absolute', inset: 0, y: bgY, pointerEvents: 'none' }}>
         <div
           style={{
